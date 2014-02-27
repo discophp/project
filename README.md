@@ -1,4 +1,5 @@
-phpBoilerPlate
+Disco PHP Framework
 ==============
 
-A PHP Boiler Plate for Web Application Development
+
+A PHP Framework.
