@@ -1,0 +1,26 @@
+{
+    "name": "jbhamilton/disco",
+    "description": "php framework",
+    "license": "Apache License V2",
+    "authors": [
+        {
+            "name": "Bradley Hamilton",
+            "email": "bradleygoskimmin@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "jbhamilton/disco-core":"1.*"
+    },
+    "autoload": {
+        "classmap":[
+            "core/",
+            "core/facades/",
+            "app/view/",
+            "app/controller/",
+            "app/template/",
+            "app/model/",
+            "app/view/bitcoin/"
+        ]
+    }
+}
