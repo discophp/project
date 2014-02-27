@@ -14,8 +14,6 @@
     },
     "autoload": {
         "classmap":[
-            "core/",
-            "core/facades/",
             "app/view/",
             "app/controller/",
             "app/template/",
