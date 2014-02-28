@@ -1,0 +1,23 @@
+{    
+        "ACCOUNTS":[
+            "johndoe@mail.com":{
+                "NAME":"JohnDoe",
+                "PASSWORD":"password"
+            }
+        ],
+        "DEFAULT":"SMTP",
+        "SMTP":{
+            "HOST":"mail.site.com",
+            "PORT":"25",
+        },
+        "SSL":{
+            "HOST":"mail.site.com",
+            "PORT":"587",
+        },
+        "TLS":{
+            "HOST":"mail.site.com",
+            "PORT":"465",
+        }
+}
+
+
