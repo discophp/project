@@ -10,7 +10,7 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "jbhamilton/disco-core":"dev-master"
+        "jbhamilton/disco-core":"1.0.x-dev"
     },
     "autoload": {
         "classmap":[
