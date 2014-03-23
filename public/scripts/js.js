@@ -5,7 +5,7 @@ $(document).ready(function(){
 });
 
 function flex(){
-    $('#bottom-page').css('margin-top',$('#top-page').height());
+    $('#body').css('margin-top',$('#header').height());
 }//flex
 
 

@@ -1,0 +1,22 @@
+{    
+        "DEFAULT":"SMTP",
+
+        "email@site.com":{
+            "NAME":"email@site.com",
+            "PASSWORD":"password"
+        },
+        "SMTP":{
+            "HOST":"mail.site.com",
+            "PORT":"25"
+        },
+        "SSL":{
+            "HOST":"mail.site.com",
+            "PORT":"465"
+        },
+        "TLS":{
+            "HOST":"mail.site.com",
+            "PORT":"465"
+        }
+}
+
+
