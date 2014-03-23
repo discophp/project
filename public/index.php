@@ -1,8 +1,5 @@
 <?php
 
-//debug
-$time = microtime();
-
 /**
  * Load Disco 
  * The only require you must write
@@ -12,35 +9,40 @@ require_once('../vendor/jbhamilton/disco-core/core/Disco.core.php');
 
 
 /**
- * Swap the View Facade with a new instance 
+ *
+ *      YOUR APPLICATION LOGIC GOES BELOW
+ *      ---------------------------------
+ *
 */
-//Disco::make('View',function(){
-//    return new bitcoin();
-//});
-
 
 
 
 /**
- * Set up a Router
+ * Swap the View Facade with a new instance 
 */
-//Disco::useRouter('bitcoin/bitcoinRouter');
+Disco::make('View',function(){
+    return new Standard();
+});
+
+
+
+
+View::html('Disco is working');
+
+
+
+
+
 
 
 
 
 /**
  * Print out our View
+ * Do no remove this method call unless you wish to 
+ * call View::printPage() after satisifying every router condition
 */
 View::printPage();
 
-
-
-
-
-
-
-//debug
-echo '<script>console.log("'.(microtime()-$time).'");</script>';
 
 ?>
