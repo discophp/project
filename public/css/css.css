@@ -1,7 +1,18 @@
 /* ------------ DEFAULTS ------------------*/
 
+body,html {
+height:100%;
+}
+
 body {
 margin:0 auto;
+}
+
+#body-wrapper {
+min-height:100%;
+height:auto !important;
+height:100%;
+margin:0 auto 200px;
 }
 
 body.disco-seo #header {
@@ -20,5 +31,9 @@ width:100%;
 
 #footer {
 width:100%;
+}
+
+#footer,#footer-spacing {
+height:200px;
 }
 
