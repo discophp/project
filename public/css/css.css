@@ -13,6 +13,7 @@ min-height:100%;
 height:auto !important;
 height:100%;
 margin:0 auto 200px;
+position:relative;
 }
 
 body.disco-seo #header {
@@ -25,7 +26,7 @@ width:100%;
 }
 
 #body {
-position:relative;
+position:absolute;
 width:100%;
 }
 
