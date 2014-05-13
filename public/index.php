@@ -18,16 +18,18 @@ require_once('../vendor/jbhamilton/disco-core/core/Disco.core.php');
 
 
 /**
- * Swap the View Facade with a new instance 
+ * Swap the View Facade with a different Base object
 */
 Disco::make('View',function(){
     return new Standard();
 });
 
 
+Router::get('/',function(){
 
+    View::html('Disco is working');
 
-View::html('Disco is working');
+});
 
 
 
