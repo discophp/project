@@ -7,6 +7,15 @@
 require_once('../vendor/jbhamilton/disco-core/core/Disco.core.php');
 
 
+/**
+ *      Don't want to use the Util Facade? Comment below out,or delete it.
+*/
+
+Disco::make('Util',function(){
+    return new Disco/classes/Util;
+});
+
+
 
 /**
  *
@@ -21,7 +30,7 @@ require_once('../vendor/jbhamilton/disco-core/core/Disco.core.php');
  * Swap the View Facade with a different Base object
 */
 Disco::make('View',function(){
-    return new Standard();
+    return new StandardView();
 });
 
 

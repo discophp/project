@@ -18,7 +18,8 @@
             "app/controller/",
             "app/template/",
             "app/model/",
-            "app/facade/"
+            "app/facade/",
+            "app/class/"
         ]
     }
 }
