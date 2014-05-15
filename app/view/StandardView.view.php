@@ -1,6 +1,6 @@
 <?php
 
-Class StandardView extends Disco/classes/View {
+Class StandardView extends Disco\classes\View {
 
     public function header(){
         return " 
