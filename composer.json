@@ -10,7 +10,7 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "jbhamilton/disco-core":"2.0"
+        "discophp/framework":"2.0"
     },
     "autoload": {
         "classmap":[
