@@ -1,0 +1,50 @@
+#!/usr/bin/php
+
+
+<?php
+
+$_SERVER['DOCUMENT_ROOT'] = __DIR__."/public/";
+
+require('vendor/discophp/framework/core/Disco.core.php');
+
+function errorHandler($errNo,$errStr,$errFile,$errLine){
+    switch($errNo){
+        case E_USER_ERROR:
+            $f = $errNo.' '.$errStr.' '.$errFile.' '.$errLine;
+            shell_exec('echo "'.$f.'" > ../logs/disco-jobs.log');
+            exit(1);
+            break;
+    }//switch
+    return true;
+}//errorHandler
+
+
+set_error_handler("errorHandler");
+
+
+if(isset($argv[1])){
+
+    switch($argv[1]){
+    
+        case 'resolve':
+            Disco\manage\Manager::resolve($argv[2],$argv[3],$argv[4],$argv[5],$argv[6]);
+            break;
+
+        case 'jobs':
+            Disco\manage\Manager::jobs();
+            break;
+
+        case 'kill-job':
+            Queue::killJob($argv[2]);
+            break;
+
+    
+    }//switch
+}//if
+
+
+
+
+
+
+?>
