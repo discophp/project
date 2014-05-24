@@ -38,6 +38,47 @@ if(isset($argv[1])){
             Queue::killJob($argv[2]);
             break;
 
+        case 'make':
+            $vars=Array();
+            $i=4;
+            while(!empty($argv[$i])){
+                $vars[]=$argv[$i];
+                $i++;
+            }//while
+
+            if(isset(Disco::$facades[$argv[2]])){
+                $argv[2] = call_user_func(Disco::$facades[$argv[2]]);
+            }//if
+            else {
+                $argv[2] = new $argv[2];
+            }//el
+
+            var_dump(Disco::handle($argv[2],$argv[3],$vars));
+            break;
+
+        case 'mysql':
+            $db = call_user_func(\Disco::$facades['DB']);
+            echo $db->host_info.PHP_EOL;
+            echo $db->server_info.PHP_EOL;
+            echo $db->stat.PHP_EOL.PHP_EOL;
+            break;
+
+        case 'mode':
+
+            if(empty($argv[2]) || ($argv[2]!='DEV' && $argv[2]!='PROD')){
+                echo 'Mode takes one of two values: DEV | PROD'.PHP_EOL.'Please supply a correct value'.PHP_EOL;
+                exit;
+            }//if
+
+            $f = file_get_contents('./.config.php');
+            $find = 'APP_MODE\'=>\'';
+            $i = stripos($f,$find)+strlen($find);
+            $ni = stripos($f,'\'',$i);
+            $f = substr_replace($f,$argv[2],$i,$ni-$i);
+            file_put_contents('./.config.php',$f);
+            echo 'App Mode now set to: '.$argv[2].PHP_EOL;
+            break;
+
     
     }//switch
 }//if
