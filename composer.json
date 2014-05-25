@@ -21,5 +21,9 @@
             "app/facade/",
             "app/class/"
         ]
+    },
+    "scripts": {
+        "post-install-cmd":"Disco\\manage\\Manager::install"
     }
+
 }
