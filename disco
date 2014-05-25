@@ -25,7 +25,7 @@ set_error_handler("errorHandler");
 if(isset($argv[1])){
 
     switch($argv[1]){
-    
+
         case 'resolve':
             Disco\manage\Manager::resolve($argv[2],$argv[3],$argv[4],$argv[5],$argv[6]);
             break;
@@ -36,6 +36,41 @@ if(isset($argv[1])){
 
         case 'kill-job':
             Queue::killJob($argv[2]);
+            break;
+
+        case 'gen':
+            if($argv[2]=='aes'){
+                $r = Disco\manage\Manager::genAES256Key();
+                if(isset($argv[3]) && $argv[3]=='set'){
+                    Disco\manage\Manager::setAES256Key($r);
+                    echo 'AES_KEY256 now set to : '.$r.PHP_EOL;
+                }//if
+                else {
+                    echo $r.PHP_EOL;
+                }//el
+            }//if
+            else if($argv[2]=='sha'){
+                if(empty($argv[3])){
+                    echo 'You must specify a length for the SHA512 salt'.PHP_EOL;
+                    exit;
+                }//if
+
+                $s = Disco\manage\Manager::genSalt($argv[3]);
+
+                if(!empty($argv[4]) && $argv[4]=='set-lead'){
+                    Disco\manage\Manager::setSaltLead($s);
+                    echo 'SHA512_SALT_LEAD now set to : '.$s.PHP_EOL;
+                }//if
+                else if(!empty($argv[4]) && $argv[4]=='set-tail'){
+                    Disco\manage\Manager::setSaltTail($s);
+                    echo 'SHA512_SALT_TAIL now set to : '.$s.PHP_EOL;
+                }//if
+                else {
+                    echo $s.PHP_EOL;
+                }//el
+
+            }//elif
+
             break;
 
         case 'make':
@@ -65,18 +100,19 @@ if(isset($argv[1])){
 
         case 'mode':
 
-            if(empty($argv[2]) || ($argv[2]!='DEV' && $argv[2]!='PROD')){
+            if(empty($argv[2])){
+                $mode = Disco\manage\Manager::appMode();
+                echo 'APP_MODE : '.$mode.PHP_EOL;
+                exit;
+            }//if
+            else if($argv[2]!='DEV' && $argv[2]!='PROD'){
                 echo 'Mode takes one of two values: DEV | PROD'.PHP_EOL.'Please supply a correct value'.PHP_EOL;
                 exit;
             }//if
 
-            $f = file_get_contents('./.config.php');
-            $find = 'APP_MODE\'=>\'';
-            $i = stripos($f,$find)+strlen($find);
-            $ni = stripos($f,'\'',$i);
-            $f = substr_replace($f,$argv[2],$i,$ni-$i);
-            file_put_contents('./.config.php',$f);
-            echo 'App Mode now set to: '.$argv[2].PHP_EOL;
+            Disco\manage\Manager::appMode($argv[2]);
+            echo 'APP_MODE now set to: '.$argv[2].PHP_EOL;
+
             break;
 
     
