@@ -23,7 +23,7 @@
         ]
     },
     "scripts": {
-        "post-install-cmd":"Disco\\manage\\Manager::install"
+        "post-install-cmd":"php disco post-install-cmd"
     }
 
 }
