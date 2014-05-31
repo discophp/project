@@ -7,6 +7,7 @@ return Array(
     'COMPOSER_PATH'=>'vendor',
 
     'APP_MODE'=>'DEV',
+    'MAINTANANCE_MODE'=>'NO',
 
     'DB_HOST'=>'localhost',
     'DB_USER'=>'root',
