@@ -34,6 +34,12 @@ if(isset($argv[1])){
             Disco\manage\Manager::install();
             break;
 
+        case 'post-update-cmd':
+            echo 'Generating autoload files for Disco Addons ...';
+            Disco\manage\Manager::addonAutoloads();
+            echo ' done.'.PHP_EOL;
+            break;
+
         case 'jobs':
             Disco\manage\Manager::jobs();
             break;
@@ -140,7 +146,8 @@ if(isset($argv[1])){
             echo 'MAINTANANCE_MODE now set to: '.$argv[2].PHP_EOL;
             echo 'Users will being seeing the result of the file'.PHP_EOL.' -  app/maintanance.php'.PHP_EOL;
             break;
-    
+
+
     }//switch
 }//if
 
