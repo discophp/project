@@ -125,26 +125,28 @@ if(isset($argv[1])){
 
             break;
 
-        case 'maintanance-mode':
+        case 'maintenance-mode':
 
             if(empty($argv[2])){
-                $mode = Disco\manage\Manager::maintananceMode();
+                $mode = Disco\manage\Manager::maintenanceMode();
                 if($mode=='YES'){
-                    echo 'MAINTANANCE_MODE : ON'.PHP_EOL;
+                    echo 'MAINTENANCE_MODE : ON'.PHP_EOL;
                 }//if
                 else {
-                    echo 'MAINTANANCE_MODE : OFF'.PHP_EOL;
+                    echo 'MAINTENANCE_MODE : OFF'.PHP_EOL;
                 }//el
                 exit;
             }//if
             else if($argv[2]!='YES' && $argv[2]!='NO'){
-                echo 'Mode takes one of two values: YES | NO '.PHP_EOL.'Please supply a correct value'.PHP_EOL;
+                echo 'Maintenance Mode takes one of two values: YES | NO '.PHP_EOL.'Please supply a correct value'.PHP_EOL;
                 exit;
             }//if
 
-            Disco\manage\Manager::maintananceMode($argv[2]);
-            echo 'MAINTANANCE_MODE now set to: '.$argv[2].PHP_EOL;
-            echo 'Users will being seeing the result of the file'.PHP_EOL.' -  app/maintanance.php'.PHP_EOL;
+            Disco\manage\Manager::maintenanceMode($argv[2]);
+            echo 'MAINTENANCE_MODE now set to: '.$argv[2].PHP_EOL;
+            if($argv[2]=='YES'){
+                echo 'Users will being seeing the result of the file'.PHP_EOL.' -  app/maintenance.php'.PHP_EOL;
+            }//if
             break;
 
 
