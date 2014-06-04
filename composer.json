@@ -16,7 +16,6 @@
         "classmap":[
             "app/view/",
             "app/controller/",
-            "app/template/",
             "app/model/",
             "app/facade/",
             "app/class/"
