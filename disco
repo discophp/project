@@ -7,7 +7,7 @@ $_SERVER['DOCUMENT_ROOT'] = __DIR__."/public/";
 
 require('vendor/autoload.php');
 
-//$app = new Disco;
+$app = new Disco;
 
 function errorHandler($errNo,$errStr,$errFile,$errLine){
     switch($errNo){
