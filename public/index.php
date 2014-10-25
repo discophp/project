@@ -1,25 +1,19 @@
 <?php
 /**
- * Load Disco. The only require you must write!
+ * Require the composer autoloader. 
 */
-require_once('../vendor/discophp/framework/core/Disco.core.php');
+require(dirname(dirname(__FILE__)).'/vendor/autoload.php');
 
 /**
  * YOUR APPLICATION LOGIC GOES BELOW
  * ---------------------------------
 */
 
+$app = new Disco;
 
-// Don't want to use the Util Facade? Comment below out,or delete it.
-// - you can subsequently remove the Util.class.php file from app/class/
-Disco::make('Util',function(){
-    return new Disco\classes\Util;
-});
 
 // Swap the View Facade With an Extended View Class.
-Disco::make('View',function(){
-    return new StandardView();
-});
+Disco::make('View','StandardView');
 
 
 
@@ -34,10 +28,8 @@ Router::get('/',function(){
 
 
 
-
 /**
  * ---------------------------------
  * YOUR APPLICATION LOGIC STAYS ABOVE 
 */
 Disco::tearDownApp();
-?>

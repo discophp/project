@@ -5,7 +5,9 @@
 
 $_SERVER['DOCUMENT_ROOT'] = __DIR__."/public/";
 
-require('vendor/discophp/framework/core/Disco.core.php');
+require('vendor/autoload.php');
+
+//$app = new Disco;
 
 function errorHandler($errNo,$errStr,$errFile,$errLine){
     switch($errNo){
@@ -84,6 +86,7 @@ if(isset($argv[1])){
             break;
 
         case 'make':
+            $app = new Disco;
             $vars=Array();
             $i=4;
             while(!empty($argv[$i])){
@@ -91,21 +94,21 @@ if(isset($argv[1])){
                 $i++;
             }//while
 
-            if(isset(Disco::$facades[$argv[2]])){
-                $argv[2] = call_user_func(Disco::$facades[$argv[2]]);
+            if(isset($app[$argv[2]])){
+                $argv[2] = $app[$argv[2]];
             }//if
             else {
                 $argv[2] = new $argv[2];
             }//el
 
-            var_dump(Disco::handle($argv[2],$argv[3],$vars));
+            var_dump(call_user_func_array(Array($argv[2],$argv[3],$vars)));
             break;
 
         case 'mysql':
-            $db = call_user_func(\Disco::$facades['DB']);
-            echo $db->host_info.PHP_EOL;
-            echo $db->server_info.PHP_EOL;
-            echo $db->stat.PHP_EOL.PHP_EOL;
+            $app = new Disco;
+            echo $app['DB']->host_info.PHP_EOL;
+            echo $app['DB']->server_info.PHP_EOL;
+            echo $app['DB']->stat.PHP_EOL.PHP_EOL;
             break;
 
         case 'mode':
@@ -149,6 +152,43 @@ if(isset($argv[1])){
             }//if
             break;
 
+        case 'create':
+            if($argv[2] == 'model'){
+                if(!isset($argv[3])){
+                    echo 'You must specify a table to build the model from'.PHP_EOL;
+                    exit;
+                }//if
+                $table = $argv[3];
+
+                if($table=='all'){
+                    $result = DB::query('
+                        SELECT table_name 
+                        FROM information_schema.tables
+                        WHERE table_type="BASE TABLE" AND table_schema="'.$_SERVER['DB_DB'].'"
+                    ');
+
+                    while($row = $result->fetch_assoc()){
+                        Disco\manage\Manager::buildModel($row['table_name']);
+                    }//while
+
+                }//if
+                else {
+                    Disco\manage\Manager::buildModel($table);
+                }//el
+
+            }//if
+            break;
+
+        case 'routes':
+            $_SERVER['REQUEST_METHOD'] = 'GET';
+            $_SERVER['REQUEST_URI'] = '/1093489sdker';
+            Disco\manage\Manager::routes($argv[2]);
+            break;
+
+
+        case 'unit-tests':
+            system('php vendor/phpunit/phpunit/phpunit --bootstrap vendor/autoload.php --colors vendor/discophp/framework/test/unit/classes/ 2>&1').PHP_EOL;
+            break;
 
     }//switch
 }//if
