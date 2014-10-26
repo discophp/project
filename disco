@@ -9,20 +9,6 @@ require('vendor/autoload.php');
 
 $app = new Disco;
 
-function errorHandler($errNo,$errStr,$errFile,$errLine){
-    switch($errNo){
-        case E_USER_ERROR:
-            $f = $errNo.' '.$errStr.' '.$errFile.' '.$errLine;
-            shell_exec('echo "'.$f.'" > ../logs/disco-jobs.log');
-            exit(1);
-            break;
-    }//switch
-    return true;
-}//errorHandler
-
-
-set_error_handler("errorHandler");
-
 
 if(isset($argv[1])){
 
@@ -85,8 +71,7 @@ if(isset($argv[1])){
 
             break;
 
-        case 'make':
-            $app = new Disco;
+        case 'with':
             $vars=Array();
             $i=4;
             while(!empty($argv[$i])){
@@ -94,14 +79,9 @@ if(isset($argv[1])){
                 $i++;
             }//while
 
-            if(isset($app[$argv[2]])){
-                $argv[2] = $app[$argv[2]];
-            }//if
-            else {
-                $argv[2] = new $argv[2];
-            }//el
+            $argv[2] = Disco::with($argv[2]);
 
-            var_dump(call_user_func_array(Array($argv[2],$argv[3],$vars)));
+            var_dump(call_user_func_array(Array($argv[2],$argv[3]),$vars));
             break;
 
         case 'mysql':
