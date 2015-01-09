@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit backupGlobals="false"
+    bootstrap="vendor/discophp/framework/test/autoload.php"
+    colors="true"
+    convertErrorsToExceptions="true"
+    convertNoticesToExceptions="true"
+    convertWarningsToExceptions="true"
+    stopOnFailure="false"
+    >
+    <testsuites>
+        <testsuite name="Application Test Suite">
+            <directory>vendor/discophp/framework/test/unit/</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>

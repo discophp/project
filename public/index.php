@@ -1,30 +1,20 @@
 <?php
-/**
- * Require the composer autoloader. 
-*/
+//Require the composer autoloader. 
 require(dirname(dirname(__FILE__)).'/vendor/autoload.php');
+
+//setup the application
+\Disco\classes\App::instance()->setUp();
+
 
 /**
  * YOUR APPLICATION LOGIC GOES BELOW
  * ---------------------------------
 */
 
-$app = new Disco;
 
 
-// Swap the View Facade With an Extended View Class.
-Disco::make('View','StandardView');
-
-
-
-
-//match the index route
-Router::get('/',function(){
-
-    View::html('Disco is working');
-
-});
-
+// Swap the View Service With an Extended View Class.
+App::make('View','StandardView');
 
 
 
@@ -32,4 +22,4 @@ Router::get('/',function(){
  * ---------------------------------
  * YOUR APPLICATION LOGIC STAYS ABOVE 
 */
-Disco::tearDownApp();
+App::tearDown();
