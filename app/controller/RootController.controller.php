@@ -3,7 +3,7 @@
 Class RootController {
 
     public function index(){
-        View::html('Welcome to Disco'); 
+        Template::with('index');
     }//index
 
 }//Index

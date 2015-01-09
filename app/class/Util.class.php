@@ -1,26 +1,8 @@
 <?php
 
-namespace Disco\classes;
-
 class Util {
 
     public $emailRegExPattern = "/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/";
-
-    public function decodeURL($inc){
-        $inc = urldecode($inc);
-        $inc = str_replace('-',' ',$inc);
-        return $inc;
-    }//decodeURL
-
-    public function encodeURL($inc){
-        $inc = str_replace(' ','-',$inc);
-        $inc = urlencode($inc);
-        return $inc;
-    }//encodeURL
-
-    public function cleanInput($inc){
-        return htmlentities($inc);
-    }//cleanInput
 
     public function buildTime($cTime) {
         if($cTime==0 || $cTime=='')
@@ -33,7 +15,6 @@ class Util {
         elseif(!($timeSince>31104000)){ $now=round(((($timeSince/60)/60)/24)/30); $now.=($now==1)?' month ago':' months ago'; return $now; }//end elseif
         else{ $now=round((((($timeSince/60)/60)/24)/30)/12); $now.=($now==1)?' year ago':'years ago'; return $now; }//end
     }//end buildTime()
-
 
     public function death(){
         header('Location: /404');

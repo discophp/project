@@ -3,21 +3,25 @@
 Class StandardView extends Disco\classes\View {
 
     public function header(){
-        return " 
-            <h1>Now you Disco</h1>
-        ";
+        return Template::build('header');
     }//header
 
     public function __construct(){
 
         $this->scriptSrc('http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js');
-        $this->scriptSrc('/scripts/js.js');
+        $this->scriptSrc('/js/modernizr.js');
+        $this->scriptSrc('/js/foundation.min.js');
+        $this->scriptSrc('/js/js.js');
+
+        $this->styleSrc('/css/foundation.min.css');
         $this->styleSrc('/css/css.css');
+
+        $this->script('$(document).foundation();');
 
     }//construct
 
     public function footer(){
-        return "<p>A footer</p>";
+        return Template::build('footer');
     }//footer
 
 }//Standard
