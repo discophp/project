@@ -7,7 +7,8 @@ $_SERVER['DOCUMENT_ROOT'] = __DIR__."/public/";
 
 require('vendor/autoload.php');
 
-$app = new Disco;
+$app = new \Disco\classes\App;
+$app->setUp();
 
 
 if(isset($argv[1])){
@@ -79,13 +80,12 @@ if(isset($argv[1])){
                 $i++;
             }//while
 
-            $argv[2] = Disco::with($argv[2]);
+            $argv[2] = $app->with($argv[2]);
 
             var_dump(call_user_func_array(Array($argv[2],$argv[3]),$vars));
             break;
 
         case 'mysql':
-            $app = new Disco;
             echo $app['DB']->host_info.PHP_EOL;
             echo $app['DB']->server_info.PHP_EOL;
             echo $app['DB']->stat.PHP_EOL.PHP_EOL;
@@ -167,7 +167,8 @@ if(isset($argv[1])){
 
 
         case 'unit-tests':
-            system('php vendor/phpunit/phpunit/phpunit --bootstrap vendor/autoload.php --colors vendor/discophp/framework/test/unit/classes/ 2>&1').PHP_EOL;
+            //system('php vendor/phpunit/phpunit/phpunit --bootstrap vendor/discophp/framework/test/autoload.php --colors vendor/discophp/framework/test/unit/classes/ 2>&1').PHP_EOL;
+            system('php vendor/phpunit/phpunit/phpunit --no-globals-backup --bootstrap vendor/discophp/framework/test/autoload.php --colors vendor/discophp/framework/test/unit/ 2>&1').PHP_EOL;
             break;
 
     }//switch
