@@ -1,0 +1,9 @@
+{% extends view.isAjax ? "_ajax_layout.html" : "_layout.html" %}
+
+{% block content %}
+
+    <div class='header'>{{ view.header|raw }}</div>
+    <div class='body'>{{ view.body|raw }}</div>
+    <div class='footer'>{{ view.footer|raw }}</div>
+
+{% endblock %}

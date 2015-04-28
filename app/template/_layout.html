@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang='{{ view.lang }}'>
+    <head>
+        <meta charset='{{ view.charset }}' />
+        <meta content='{{ view.robots }}' name='robots'>
+        <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+        <title>{{ view.title }}</title>
+        {% if view.description %}
+        <meta name='description' content="{{ view.description }}">
+        {% endif %}
+
+        <link type='image/x-icon' href='{{ url(view.favIcon) }}' rel='shortcut icon'>
+
+        {% for s in view.styleSrcs %}
+        <link rel='stylesheet' href='{{ url(s.src) }}' type='text/css'{% for p,a in s.props %} {{ p }}="{{ a }}"{% endfor %} />
+        {% endfor %}
+
+        {% if view.styles %}
+        <style>{{ view.styles }}</style>
+        {% endif %}
+
+        {% for s in view.headScriptSrcs %}
+        <script type='text/javascript' src='{{ url(s.src) }}'{% for p,a in s.props %} {{ p }}="{{ a }}"{% endfor %}></script>
+        {% endfor %}
+
+        {% if view.headExtra %}
+        {{ view.headExtra }}
+        {% endif %}
+
+    </head>
+    <body{% if view.bodyStyles %} class='{{ view.bodyStyles }}'{% endif %}> 
+        {% block content %}{% endblock %}
+
+        {% for s in view.scriptSrcs %}
+        <script type='text/javascript' src='{{ url(s.src) }}'{% for p,a in s.props %} {{ p }}="{{ a }}"{% endfor %}></script>
+        {% endfor %}
+
+        {% if view.scripts %}
+        <script type='text/javascript'>{{ view.scripts}}</script>
+        {% endif %}
+
+    </body>
+</html>
