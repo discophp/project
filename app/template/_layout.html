@@ -12,7 +12,7 @@
         <link type='image/x-icon' href='{{ url(view.favIcon) }}' rel='shortcut icon'>
 
         {% for s in view.styleSrcs %}
-        <link rel='stylesheet' href='{{ url(s.src) }}' type='text/css'{% for p,a in s.props %} {{ p }}="{{ a }}"{% endfor %} />
+        <link rel='stylesheet' href='{{ url(s.src) }}' type='text/css'{% for p,a in s.props %} {{ p }}="{{ a }}"{% endfor %}/>
         {% endfor %}
 
         {% if view.styles %}
