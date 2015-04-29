@@ -3,7 +3,7 @@
 Class StandardView extends Disco\classes\View {
 
     public function header(){
-        return Template::build('header');
+        return Template::build('header.html');
     }//header
 
     public function __construct(){
@@ -21,7 +21,7 @@ Class StandardView extends Disco\classes\View {
     }//construct
 
     public function footer(){
-        return Template::build('footer');
+        return Template::build('footer.html');
     }//footer
 
 }//Standard
