@@ -16,7 +16,7 @@
         {% endfor %}
 
         {% if view.styles %}
-        <style>{{ view.styles }}</style>
+        <style>{{ view.styles|raw }}</style>
         {% endif %}
 
         {% for s in view.headScriptSrcs %}
@@ -36,7 +36,7 @@
         {% endfor %}
 
         {% if view.scripts %}
-        <script type='text/javascript'>{{ view.scripts}}</script>
+        <script type='text/javascript'>{{ view.scripts|raw }}</script>
         {% endif %}
 
     </body>
