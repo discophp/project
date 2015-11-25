@@ -10,7 +10,7 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "discophp/framework":"2.3"
+        "discophp/framework":"dev-dev-master"
     },
     "autoload": {
         "classmap":[
@@ -18,12 +18,12 @@
             "app/controller/",
             "app/model/",
             "app/facade/",
-            "app/class/"
+            "app/record/",
+            "app/service/"
         ]
     },
     "scripts": {
-        "post-install-cmd":"php disco post-install-cmd",
-        "post-update-cmd":"php disco post-update-cmd"
+        "post-install-cmd":"php disco post-install-cmd"
     }
 
 }

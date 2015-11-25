@@ -7,7 +7,7 @@ $_SERVER['DOCUMENT_ROOT'] = __DIR__."/public/";
 
 require('vendor/autoload.php');
 
-$app = new \Disco\classes\App;
+$app = App::instance();
 $app->setUp();
 
 
@@ -21,12 +21,6 @@ if(isset($argv[1])){
 
         case 'post-install-cmd':
             Disco\manage\Manager::install();
-            break;
-
-        case 'post-update-cmd':
-            echo 'Generating autoload files for Disco Addons ...';
-            Disco\manage\Manager::addonAutoloads();
-            echo ' done.'.PHP_EOL;
             break;
 
         case 'jobs':
@@ -132,6 +126,71 @@ if(isset($argv[1])){
             }//if
             break;
 
+        case 'db-backup':
+
+            $path = '/app/db/';
+            if(isset($argv[2])){
+                $path = $argv[2];
+            }//if
+
+            $fileName = \App::config('DB_DB');
+            if(isset($argv[3])){
+                $fileName = $argv[3];
+            }//if
+
+            $path = \App::path().$path;
+
+            if(!is_dir($path)){
+                echo 'Directory '.$path.' does not exsist, exiting.'.PHP_EOL;
+                exit;
+            }//if
+
+            $e = "mysqldump -u %1\$s -p'%2\$s' -h %3\$s --single-transaction --routines %4\$s > %5\$s%6\$s.sql";
+            $e = sprintf($e,
+                \App::config('DB_USER'),
+                \App::config('DB_PASSWORD'),
+                \App::config('DB_HOST'),
+                \App::config('DB_DB'),
+                $path,
+                $fileName
+            );
+
+            echo exec($e);
+            break;
+
+        case 'db-restore':
+
+            $path = '/app/db/';
+            if(isset($argv[2])){
+                $path = $argv[2];
+            }//if
+
+            $path = \App::path().$path;
+
+            $fileName = \App::config('DB_DB');
+            if(isset($argv[3])){
+                $fileName = $argv[3];
+            }//if
+
+            if(!is_dir($path)){
+                echo 'Directory '.$path.' does not exsist, exiting.'.PHP_EOL;
+                exit;
+            }//if
+
+            $e = "mysql -u %1\$s -p'%2\$s' -h %3\$s %4\$s < %5\$s%6\$s.sql;";
+            $e = sprintf($e,
+                \App::config('DB_USER'),
+                \App::config('DB_PASSWORD'),
+                \App::config('DB_HOST'),
+                \App::config('DB_DB'),
+                $path,
+                $fileName
+            );
+
+            //echo $e.PHP_EOL;
+            echo exec($e);
+            break;
+
         case 'create':
             if($argv[2] == 'model'){
                 if(!isset($argv[3])){
@@ -139,24 +198,68 @@ if(isset($argv[1])){
                     exit;
                 }//if
                 $table = $argv[3];
+                $template_path = isset($argv[4]) ? $argv[4] : 'app/config/model.format';
+                $output_path = isset($argv[5]) ? $argv[5] : 'app/model/';
 
                 if($table=='all'){
-                    $result = DB::query('
-                        SELECT table_name 
-                        FROM information_schema.tables
-                        WHERE table_type="BASE TABLE" AND table_schema="'.$_SERVER['DB_DB'].'"
-                    ');
+
+                    $result = getDBSchema();
 
                     while($row = $result->fetch_assoc()){
-                        Disco\manage\Manager::buildModel($row['table_name']);
+                        $model = Disco\manage\Manager::buildModel($row['table_name']);
+                        if($output_path && $template_path){
+                            Disco\manage\Manager::writeModel($row['table_name'],$model,$template_path,$output_path);
+                        } else {
+                            var_dump($record);
+                        }//el
                     }//while
 
                 }//if
                 else {
-                    Disco\manage\Manager::buildModel($table);
+                    $model = Disco\manage\Manager::buildModel($table);
+                    if($output_path && $template_path){
+                        Disco\manage\Manager::writeModel($table,$model,$template_path,$output_path);
+                    } else {
+                        var_dump($model);
+                    }//el
                 }//el
 
             }//if
+            else if($argv[2] == 'record'){
+
+                if(!isset($argv[3])){
+                    echo 'You must specify a table to build the record from'.PHP_EOL;
+                    exit;
+                }//if
+
+                $table = $argv[3];
+
+                $template_path = isset($argv[4]) ? $argv[4] : 'app/config/record.format';
+                $output_path = isset($argv[5]) ? $argv[5] : 'app/record/';
+
+                if($table=='all'){
+                    $result = getDBSchema();
+                    while($row = $result->fetch()){
+                        $record = Disco\manage\Manager::buildRecord($row['table_name']);
+                        if($output_path && $template_path){
+                            Disco\manage\Manager::writeRecord($row['table_name'],$record,$template_path,$output_path);
+                        } else {
+                            var_dump($record);
+                        }//el
+
+                    }//while
+
+                }//if
+                else {
+                    $record = Disco\manage\Manager::buildRecord($table);
+                    if($output_path && $template_path){
+                        Disco\manage\Manager::writeRecord($table,$record,$template_path,$output_path);
+                    } else {
+                        var_dump($record);
+                    }//el
+                }//el
+
+            }//elif
             break;
 
         case 'routes':
@@ -175,8 +278,45 @@ if(isset($argv[1])){
 }//if
 
 
+//$args->parse();
+
+if($args['help']) {
+    echo $args->getHelpScreen();
+    echo "\n\n";
+}//if
 
 
+
+function getDBSchema(){
+
+    return DB::query('
+        SELECT table_name 
+        FROM information_schema.tables
+        WHERE table_type="BASE TABLE" AND table_schema="'.\App::config('DB_DB').'"
+    ');
+
+}//getDBSchema
+
+
+function disco_console_question(){
+    exec('
+    while true; do
+        read -p "Y/N?" yn
+        case $yn in
+            [Yy]* ) echo "Y"; break;;
+            [Nn]* ) echo "N"; break;;
+        esac
+    done
+        ',
+        $answer
+    );
+
+    if($answer[0] != 'N'){
+        return true;
+    }//if
+
+    return false;
+}//disco_console_question
 
 
 ?>
