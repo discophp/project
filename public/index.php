@@ -12,10 +12,23 @@ require(dirname(dirname(__FILE__)).'/vendor/autoload.php');
 */
 
 
+try {
 
-// Swap the View Service With an Extended View Class.
-App::make('View','StandardView');
+    require 'app/index.php';
 
+} catch(\Exception $e){
+
+    //*************************
+    // You better handle this!
+    // 500 error for default.
+    //*************************
+
+    http_response_code(500);
+    ob_end_clean();
+    echo 'Internal Server Error';
+    exit;
+    
+}//catch
 
 
 /**

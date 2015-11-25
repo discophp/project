@@ -1,6 +1,7 @@
 <?php
+namespace App\view;
 
-Class StandardView extends Disco\classes\View {
+Class Standard extends Disco\classes\View {
 
     public function header(){
         return Template::build('header.html');
@@ -15,8 +16,6 @@ Class StandardView extends Disco\classes\View {
 
         $this->styleSrc('/css/foundation.min.css');
         $this->styleSrc('/css/css.css');
-
-        $this->script('$(document).foundation();');
 
     }//construct
 

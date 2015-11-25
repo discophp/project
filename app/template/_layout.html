@@ -1,43 +1,39 @@
 <!doctype html>
-<html lang='{{ view.lang }}'>
+<html lang='{{ View.lang }}'>
     <head>
-        <meta charset='{{ view.charset }}' />
-        <meta content='{{ view.robots }}' name='robots'>
+        <meta charset='{{ View.charset }}' />
+        <meta content='{{ View.robots }}' name='robots'>
+
         <meta name='viewport' content='width=device-width, initial-scale=1.0' />
-        <title>{{ view.title }}</title>
-        {% if view.description %}
-        <meta name='description' content="{{ view.description }}">
+
+        <title>{{ View.title }}</title>
+
+        {% if View.description %}
+        <meta name='description' content="{{ View.description }}">
         {% endif %}
 
-        <link type='image/x-icon' href='{{ url(view.favIcon) }}' rel='shortcut icon'>
-
-        {% for s in view.styleSrcs %}
-        <link rel='stylesheet' href='{{ url(s.src) }}' type='text/css'{% for p,a in s.props %} {{ p }}="{{ a }}"{% endfor %}/>
-        {% endfor %}
-
-        {% if view.styles %}
-        <style>{{ view.styles|raw }}</style>
+        {% if View.favIcon %}
+        <link type='image/x-icon' href='{{ View.favIcon }}' rel='shortcut icon'>
         {% endif %}
 
-        {% for s in view.headScriptSrcs %}
-        <script type='text/javascript' src='{{ url(s.src) }}'{% for p,a in s.props %} {{ p }}="{{ a }}"{% endfor %}></script>
-        {% endfor %}
+        {{ View.printStyleSrcs() }}
 
-        {% if view.headExtra %}
-        {{ view.headExtra }}
+        {{ View.printStyles() }}
+
+        {{ View.printHeadScriptSrcs() }}
+
+        {% if View.headExtra %}
+            {{ View.headExtra }}
         {% endif %}
 
     </head>
-    <body{% if view.bodyStyles %} class='{{ view.bodyStyles }}'{% endif %}> 
+    {% set bodyClasses = View.bodyClasses() %}
+    <body{% if bodyClasses %} class='{{ bodyClasses }}'{% endif %}> 
+
         {% block content %}{% endblock %}
 
-        {% for s in view.scriptSrcs %}
-        <script type='text/javascript' src='{{ url(s.src) }}'{% for p,a in s.props %} {{ p }}="{{ a }}"{% endfor %}></script>
-        {% endfor %}
-
-        {% if view.scripts %}
-        <script type='text/javascript'>{{ view.scripts|raw }}</script>
-        {% endif %}
+        {{ View.printScriptSrcs() }}
+        {{ View.printScripts() }}
 
     </body>
 </html>

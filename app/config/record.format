@@ -1,0 +1,10 @@
+<?php
+namespace Your\Namespace\record;
+
+class {camelTable} extends \Disco\classes\Record {
+
+    protected $model = '\Your\Namespace\model\{camelTable}';
+    
+    {record}
+
+}//{camelTable}

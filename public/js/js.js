@@ -1,18 +1,26 @@
+var App = {};
 
 $(function(){
-    $(window).bind('resize',flex);
-    flex();
+
+    $(document).foundation();
+
+    App.$bodyContentWrapper = $('body > .body-content-wrapper');
+    App.$footer             = $('body > .footer');
+
+    $(window).bind('resize',App.flex);
+    App.flex();
+
 });
 
 
-//This handles SEO pages
-function flex(){
-    if($('body.disco-seo').length)
-        $('#body').css('margin-top',$('#header').height());
+//Keep the footer at the bottom of the screen.
+App.flex = function(){
+
+    var height = $(window).height() - App.$footer.outerHeight();
+    height = height - parseInt(App.$bodyContentWrapper.css('margin-top'));
+    App.$bodyContentWrapper.css('min-height',height);
+
 }//flex
-
-
-
 
 
 
@@ -23,21 +31,6 @@ function flex(){
 //      Disco PHP Framework default js functions
 //**************************************************
 //**************************************************
-function shake(div){
-    var interval = 100;
-    var distance = 10;
-    var times = 4;
-
-    $(div).css('position','relative');
-
-    for(var iter=0;iter<(times+1);iter++){
-        $(div).animate({ left: ((iter%2==0 ? distance : distance*-1))},interval);
-    }//for
-
-    $(div).animate({ left: 0},interval);
-
-}//shake 
-
 
 
 // Print a string with a format like PHP
@@ -56,6 +49,7 @@ if (!String.prototype.format) {
     };
 }
 
+
 //Replace all occurances of substring in string
 String.prototype.replaceAll = function(find,replace){
     var str = this;
@@ -70,39 +64,31 @@ String.prototype.replaceAll = function(find,replace){
     return this.push.apply(this, rest);
 };
 
-//set the title of the page
-function setTitle(title){
-    $('title').text(title);
-}
 
-//shake an element
-function shake(div){
-    var interval = 100;
-    var distance = 10;
-    var times = 4;
-    $(div).css('position','relative');
-    for(var iter=0;iter<(times+1);iter++){
-        $(div).animate({ left: ((iter%2==0 ? distance : distance*-1))},interval);
-    }//for
-    $(div).animate({ left: 0},interval);
-}//shake 
+//set the title of the page
+App.setTitle = function(title){
+    $('title').text(title);
+}//setTitle
+
 
 //get a cookie by name
-function getCookie(name){
+App.getCookie = function(name){
     var regexp = new RegExp("(?:^" + name + "|;\\s*"+ name + ")=(.*?)(?:;|$)", "g");
     var result = regexp.exec(document.cookie);
     return (result === null) ? null : decodeURIComponent(result[1]);
 }//getCookie
 
+
 //delete a cookie
-function deleteCookie(name,path,domain) {
+App.deleteCookie = function(name,path,domain) {
     if(getCookie(name)){
         createCookie(name,"",-1,path,domain);
     }//if
 }//deleteCookie
 
+
 //create a cookie
-function createCookie(name, value, expires, path, domain) {
+App.createCookie = function(name, value, expires, path, domain) {
     var cookie = name + "=" + escape(value) + ";";
     if (expires) {
         if(expires instanceof Date) {
@@ -123,4 +109,3 @@ function createCookie(name, value, expires, path, domain) {
         cookie += "domain=" + domain + ";";
     document.cookie = cookie;
 }//createCookie
-

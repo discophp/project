@@ -1,0 +1,9 @@
+<?php
+namespace Your\Namespace\model;
+
+class {camelTable} extends \Disco\classes\Model {
+
+    {model}
+
+
+}//{camelTable}
