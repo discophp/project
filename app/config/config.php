@@ -5,8 +5,8 @@ return Array(
     'URL'                   => 'your-site.localhost',
 
     'TEMPLATE_EXTENSION'    => '.html',
-    'TEMPLATE_PATH'         => '/',
-    'TEMPLATE_CACHE'        => '',
+    'TEMPLATE_PATH'         => '/app/template/',
+    'TEMPLATE_CACHE'        => '/app/template/.cached/',
     'TEMPLATE_RELOAD'       => true,
     'TEMPLATE_AUTOESCAPE'   => false,
 

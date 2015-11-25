@@ -1,15 +1,21 @@
-<p>Stap up those rollerblades and prepare to boogie, the <i>Disco</i> is in full effect!</p>
+<div class='row'>
 
-<hr>
+    <h1>Stap up those rollerblades and prepare to boogie, the <i>Disco</i> is in full effect!</h1>
+    
+    <hr>
 
-<p>Your seeing this because the route <i>`/`</i> has been resolved to the root controller <i>`App\controller\Root`</i> and the function
-<i>`getIndex()`</i> was called and returned this template.</p>
+    <p>This is your index, and the content is coming from <i>`app/template/index.html`</i></p>
+    
+    <p>Your seeing this because the route <i>`/`</i> has been resolved to the root controller <i>`App\controller\Root`</i> and the function
+    <i>`getIndex()`</i> was called and returned this template.</p>
+    
+    <p>The view is by defaulting using the template <i>`app/template_default.html`</i> to format pages and their 
+    <ul>
+        <li>Header</li>
+        <li>Body</li>
+        <li>Footer</li>
+    </ul>
+    the default template is extending the <i>`app/template/_layout.html`</i> which provides the generic HTML structure and resource handling.</p>
 
-<p>The view is by defaulting using the template <i>`app/template_default.html`</i> to format pages and their 
-<ul>
-    <li>Header</li>
-    <li>Body</li>
-    <li>Footer</li>
-</ul>
-the default template is extending the <i>`app/template/_layout.html`</i> which provides the generic HTML structure and resource handling.</p>
+</div>
 

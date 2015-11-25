@@ -14,7 +14,7 @@ require(dirname(dirname(__FILE__)).'/vendor/autoload.php');
 
 try {
 
-    require 'app/index.php';
+    require '../app/index.php';
 
 } catch(\Exception $e){
 

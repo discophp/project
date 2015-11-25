@@ -9,7 +9,8 @@ Class Root {
      * Logic for `/` route.
     */
     public function getIndex(){
-        Template::with('index.html');
+        \View::title('Disco Boogie Nights');
+        \Template::with('index.html');
     }//index
 
 

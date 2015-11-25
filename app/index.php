@@ -7,8 +7,7 @@
 
 
 //Register the Standard View into the application container.
-\App::register('View','\App\view\Standard');
-
+\App::make('View','\App\view\Standard');
 
 
 Router::get('/','\App\controller\Root@getIndex');
