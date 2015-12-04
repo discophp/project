@@ -23,6 +23,7 @@ try {
     // 500 error for default.
     //*************************
 
+    error_log($e->getMessage());
     http_response_code(500);
     ob_end_clean();
     echo 'Internal Server Error';
