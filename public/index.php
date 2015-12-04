@@ -1,6 +1,6 @@
 <?php
 //Require the composer autoloader. 
-require(dirname(dirname(__FILE__)).'/vendor/autoload.php');
+require('../vendor/autoload.php');
 
 //setup the application
 \Disco\classes\App::instance()->setUp();

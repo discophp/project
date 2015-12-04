@@ -13,7 +13,7 @@ return Array(
     'APP_MODE'              => 'DEV',
     'MAINTENANCE_MODE'      => 'NO',
 
-    'PDO_ENGINE'            => 'mysql',
+    'DB_ENGINE'            => 'mysql',
     'DB_CHARSET'            => 'utf8',
 
     'DB_HOST'               => '',
