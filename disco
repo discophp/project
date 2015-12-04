@@ -7,7 +7,7 @@ $_SERVER['DOCUMENT_ROOT'] = __DIR__."/public/";
 
 require('vendor/autoload.php');
 
-$app = App::instance();
+$app = Disco\classes\App::instance();
 $app->setUp();
 
 
@@ -275,14 +275,6 @@ if(isset($argv[1])){
             break;
 
     }//switch
-}//if
-
-
-//$args->parse();
-
-if($args['help']) {
-    echo $args->getHelpScreen();
-    echo "\n\n";
 }//if
 
 
