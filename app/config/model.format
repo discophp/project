@@ -1,5 +1,5 @@
 <?php
-namespace Your\Namespace\model;
+namespace App\model;
 
 class {camelTable} extends \Disco\classes\Model {
 

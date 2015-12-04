@@ -205,7 +205,7 @@ if(isset($argv[1])){
 
                     $result = getDBSchema();
 
-                    while($row = $result->fetch_assoc()){
+                    while($row = $result->fetch()){
                         $model = Disco\manage\Manager::buildModel($row['table_name']);
                         if($output_path && $template_path){
                             Disco\manage\Manager::writeModel($row['table_name'],$model,$template_path,$output_path);
