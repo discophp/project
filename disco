@@ -145,17 +145,85 @@ if(isset($argv[1])){
                 exit;
             }//if
 
-            $e = "mysqldump -u %1\$s -p'%2\$s' -h %3\$s --single-transaction --routines %4\$s > %5\$s%6\$s.sql";
-            $e = sprintf($e,
-                \App::config('DB_USER'),
-                \App::config('DB_PASSWORD'),
-                \App::config('DB_HOST'),
-                \App::config('DB_DB'),
-                $path,
-                $fileName
-            );
+            $outputPath = $path . $fileName . '.sql';
 
-            echo exec($e);
+            if(is_file($outputPath)){
+                echo "Backup file `{$outputPath}` already exists, would you like to overwrite it?";
+                if(!disco_console_question()){
+                    break;
+                }//if
+            }//if
+
+            try {
+
+                $connect = sprintf("%1\$s:host=%2\$s;dbname=%3\$s",
+                        \App::config('DB_ENGINE'),
+                        \App::config('DB_HOST'),
+                        \App::config('DB_DB')
+                    );
+
+                $settings = Array('add-drop-table' => true);
+
+                $dump = new \Ifsnop\Mysqldump\Mysqldump($connect, \App::config('DB_USER'), \App::config('DB_PASSWORD'), $settings);
+                $dump->start($outputPath);
+
+                echo 'Dump complete!' . PHP_EOL;
+
+            } catch (\Exception $e) {
+                var_dump($e->getMessage());
+                exit;
+            }//catch
+
+            break;
+
+        case 'db-backup-structure':
+
+            $path = '/app/db/';
+            if(isset($argv[2])){
+                $path = $argv[2];
+            }//if
+
+            $fileName = \App::config('DB_DB') . '_STRUCTURE';
+            if(isset($argv[3])){
+                $fileName = $argv[3];
+            }//if
+
+            $path = \App::path().$path;
+
+            if(!is_dir($path)){
+                echo 'Directory '.$path.' does not exsist, exiting.'.PHP_EOL;
+                exit;
+            }//if
+
+            $outputPath = $path . $fileName . '.sql';
+
+            if(is_file($outputPath)){
+                echo "Backup structure file `{$outputPath}` already exists, would you like to overwrite it?";
+                if(!disco_console_question()){
+                    break;
+                }//if
+            }//if
+
+            try {
+
+                $connect = sprintf("%1\$s:host=%2\$s;dbname=%3\$s",
+                        \App::config('DB_ENGINE'),
+                        \App::config('DB_HOST'),
+                        \App::config('DB_DB')
+                    );
+
+                $settings = Array('no-data' => true, 'add-drop-table' => true);
+
+                $dump = new \Ifsnop\Mysqldump\Mysqldump($connect, \App::config('DB_USER'), \App::config('DB_PASSWORD'), $settings);
+                $dump->start($outputPath);
+
+                echo 'Dump structure complete!' . PHP_EOL;
+
+            } catch (\Exception $e) {
+                var_dump($e->getMessage());
+                exit;
+            }//catch
+
             break;
 
         case 'db-restore':
@@ -187,9 +255,43 @@ if(isset($argv[1])){
                 $fileName
             );
 
-            //echo $e.PHP_EOL;
-            echo exec($e);
+            echo exec($e) . PHP_EOL;
+            echo 'Database restored!' . PHP_EOL;
             break;
+
+        case 'db-restore-structure':
+
+            $path = '/app/db/';
+            if(isset($argv[2])){
+                $path = $argv[2];
+            }//if
+
+            $path = \App::path().$path;
+
+            $fileName = \App::config('DB_DB') . '_STRUCTURE';
+            if(isset($argv[3])){
+                $fileName = $argv[3];
+            }//if
+
+            if(!is_dir($path)){
+                echo 'Directory '.$path.' does not exsist, exiting.'.PHP_EOL;
+                exit;
+            }//if
+
+            $e = "mysql -u %1\$s -p'%2\$s' -h %3\$s %4\$s < %5\$s%6\$s.sql;";
+            $e = sprintf($e,
+                \App::config('DB_USER'),
+                \App::config('DB_PASSWORD'),
+                \App::config('DB_HOST'),
+                \App::config('DB_DB'),
+                $path,
+                $fileName
+            );
+
+            echo exec($e) . PHP_EOL;
+            echo 'Database Structure restored!' . PHP_EOL;
+            break;
+
 
         case 'create':
             if($argv[2] == 'model'){
