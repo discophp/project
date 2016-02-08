@@ -2,27 +2,23 @@
 
 return Array(
 
-    'URL'                   => 'your-site.localhost',
+    'DEV_MODE'              => false,
+    'MAINTENANCE_MODE'      => false,
 
-    'TEMPLATE_EXTENSION'    => '.html',
+    'DOMAIN'                => 'your-site.localhost',
+    'FORCE_HTTPS'           => false,
+
+    'TEMPLATE_EXTENSION'    => Array('.html','.twig'),
     'TEMPLATE_PATH'         => '/app/template/',
-    'TEMPLATE_CACHE'        => '/app/template/.cached/',
-    'TEMPLATE_RELOAD'       => true,
-    'TEMPLATE_AUTOESCAPE'   => false,
+    'TEMPLATE_CACHE'        => '/app/template/.cache/',
 
-    'APP_MODE'              => 'DEV',
-    'MAINTENANCE_MODE'      => 'NO',
-
-    'DB_ENGINE'            => 'mysql',
+    'DB_ENGINE'             => 'mysql',
     'DB_CHARSET'            => 'utf8',
 
     'DB_HOST'               => '',
     'DB_USER'               => '',
     'DB_PASSWORD'           => '',
     'DB_DB'                 => '',
-
-    'MEMCACHE_HOST'         => 'localhost',
-    'MEMCACHE_PORT'         => '11211',
 
     'AES_KEY256'            => '',
 

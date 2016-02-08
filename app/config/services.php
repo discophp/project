@@ -2,7 +2,11 @@
 
 return Array(
 
-    'Cache'         => 'Disco\classes\Cache',
+    'Cache'         => function(){
+        $config = require \App::path() . '/app/config/cache.php';
+        \phpFastCache::setup($config);
+        return phpFastCache();
+    },
     'Crypt'         => 'Disco\classes\Crypt',
     'Data'          => 'Disco\classes\Data',
     'DB'            => 'Disco\classes\PDO',
