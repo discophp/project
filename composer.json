@@ -23,7 +23,7 @@
         ]
     },
     "scripts": {
-        "post-install-cmd":"php disco post-install-cmd"
+        "post-install-cmd":"php public/index.php post-install-cmd"
     }
 
 }
