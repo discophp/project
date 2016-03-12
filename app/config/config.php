@@ -10,7 +10,6 @@ return Array(
 
     'TEMPLATE_EXTENSION'    => Array('.html','.twig'),
     'TEMPLATE_PATH'         => '/app/template/',
-    'TEMPLATE_CACHE'        => '/app/template/.cache/',
 
     'DB_ENGINE'             => 'mysql',
     'DB_CHARSET'            => 'utf8',
