@@ -23,8 +23,7 @@ return Array(
 
     'AES_KEY256'            => '',
 
-    'SHA512_SALT_LEAD'      => '',
-    'SHA512_SALT_TAIL'      => ''
+    'SHA512_SALT'           => '',
 
 );
 
