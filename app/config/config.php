@@ -8,6 +8,8 @@ return Array(
     'DOMAIN'                => 'your-site.localhost',
     'FORCE_HTTPS'           => false,
 
+    'CSRF_TOKEN_NAME'       => 'APP_CSRF_TOKEN',
+
     'TEMPLATE_EXTENSION'    => Array('.html','.twig'),
     'TEMPLATE_PATH'         => '/app/template/',
 

@@ -4,13 +4,13 @@
     "license": "Apache License V2",
     "authors": [
         {
-            "name": "Bradley Hamilton",
-            "email": "bradleygoskimmin@gmail.com"
+            "name": "Bradley Hamilton | WebYoke",
+            "email": "brad@webyoke.com"
         }
     ],
     "minimum-stability": "stable",
     "require": {
-        "discophp/framework":"3.0.1"
+        "discophp/framework":"3.11.0"
     },
     "autoload": {
         "classmap":[
