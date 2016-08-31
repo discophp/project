@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "46613214b508a32c930665c82f281c53",
-    "content-hash": "1cd1777fc401f5ee8b4906127ee0bc44",
+    "hash": "f2ad3db1c62b9f785da366a7ffc13b30",
+    "content-hash": "5e54c96baa9033afafcb9e6037ef7a0d",
     "packages": [
         {
             "name": "defuse/php-encryption",
@@ -68,16 +68,16 @@
         },
         {
             "name": "discophp/framework",
-            "version": "4.0.0",
+            "version": "4.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/discophp/framework.git",
-                "reference": "d80881b5f636873e07a820006d3d0c860db5a873"
+                "reference": "71c7a73c8765f67f6ba4aeaf5ee96d28acfea476"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/discophp/framework/zipball/d80881b5f636873e07a820006d3d0c860db5a873",
-                "reference": "d80881b5f636873e07a820006d3d0c860db5a873",
+                "url": "https://api.github.com/repos/discophp/framework/zipball/71c7a73c8765f67f6ba4aeaf5ee96d28acfea476",
+                "reference": "71c7a73c8765f67f6ba4aeaf5ee96d28acfea476",
                 "shasum": ""
             },
             "require": {
@@ -95,6 +95,7 @@
             "autoload": {
                 "classmap": [
                     "core/",
+                    "core/twig/",
                     "core/facades/",
                     "core/manage/",
                     "core/classes/"
@@ -114,7 +115,7 @@
                 }
             ],
             "description": "php framework",
-            "time": "2016-07-13 23:52:17"
+            "time": "2016-08-30 21:04:16"
         },
         {
             "name": "ifsnop/mysqldump-php",
