@@ -36,7 +36,7 @@ implements:</p>
             <li>CSS & JS bundling</li>
         </ul>
     </li>
-    <li>Version controlled third party libraries (<a href="bower.js"><code>bower.js</code></a> & <a href=".bowerrc"><code>.bowerrc</code></a>) via <a href='https://bower.io/'>Bower</a></li>
+    <li>Version controlled third party libraries (<a href="bower.json"><code>bower.json</code></a> & <a href=".bowerrc"><code>.bowerrc</code></a>) via <a href='https://bower.io/'>Bower</a></li>
     <li>Default caching rules for resources (ie jpg,png,js,css etc) as defined in
     <a href="public/.htaccess"><code>public/.htacces</code></a></li>
 </ul>
@@ -52,7 +52,7 @@ implements:</p>
 <b>Optional (but required if you want to use the DB & the built in user functionality):</b>
 <ol>
     <li>Configure DB settings in <a href="app/config/config.php"><code>app/config/config.php</code></a></li>
-    <li>Create the user tables : <code>php public/index.php db-restore 'app/db' 'user.sql'</code> from the SQL file
+    <li>Create the user tables : <code>php public/index.php db-restore 'app/db' 'user_structure.sql'</code> from the SQL file
     <a href="app/db/user.sql"><code>app/db/user.sql</code></a></li>
     <li>Configure your email settings in <a href="app/config/email.php"><code>app/config/email.php</code></a></li>
 </ol>
