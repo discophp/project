@@ -27,7 +27,7 @@ implements:</p>
     <li>CSRF Tokens</li>
     <li>An amazing looking base theme/UI for you to extend using <a href='http://materializecss.com'>Materialize
     CSS</a></li>
-    <li>A build system ([`Gruntfile.js`](Gruntfile.js)) implemented using <a href='http://gruntjs.com/'>Grunt</a> which supports:
+    <li>A build system (<a href="Gruntfile.js"><code>Gruntfile.js</code></a>) implemented using <a href='http://gruntjs.com/'>Grunt</a> which supports:
         <ul>
             <li>SASS</li>
             <li>React JSX files</li>
@@ -36,30 +36,30 @@ implements:</p>
             <li>CSS & JS bundling</li>
         </ul>
     </li>
-    <li>Version controlled third party libraries ([`bower.js`](bower.js) & [`.bowerrc`](.bowerrc)) via <a href='https://bower.io/'>Bower</a></li>
+    <li>Version controlled third party libraries (<a href="bower.js"><code>bower.js</code></a> & <a href=".bowerrc"><code>.bowerrc</code></a>) via <a href='https://bower.io/'>Bower</a></li>
     <li>Default caching rules for resources (ie jpg,png,js,css etc) as defined in
-    [`public/.htaccess`](public/.htacces)</li>
+    <a href="public/.htaccess"><code>public/.htacces</code></a></li>
 </ul>
 
 <h3>Get Started</h3>
 
 <b>Required:</b>
 <ol>
-    <li>Clone : `git clone https://github.com/discophp/project.git your-site`</li>
-    <li>Install Dependencies : `composer install`</li>
+    <li>Clone : <code>git clone https://github.com/discophp/project.git your-site</code></li>
+    <li>Install Dependencies : <code>composer install</code></li>
 </ol>
 
 <b>Optional (but required if you want to use the DB & the built in user functionality):</b>
 <ol>
-    <li>Configure DB settings in [`app/config/config.php`](app/config/config.php)</li>
-    <li>Create the user tables : `php public/index.php db-restore 'app/db' 'user.sql' from the SQL file
-    [`app/db/user.sql`](app/db/user.sql)</li>
-    <li>Configure your email settings in [`app/config/email.php`](app/config/email.php)</li>
+    <li>Configure DB settings in <a href="app/config/config.php"><code>app/config/config.php</code></a></li>
+    <li>Create the user tables : <code>php public/index.php db-restore 'app/db' 'user.sql'</code> from the SQL file
+    <a href="app/db/user.sql"><code>app/db/user.sql</code></a></li>
+    <li>Configure your email settings in <a href="app/config/email.php"><code>app/config/email.php</code></a></li>
 </ol>
 
 <b>Optional (but required if you want to use the build system)</b>
 <ol>
-    <li>Install nodejs dependencies : `npm install`</li>
-    <li>Run the build system : `grunt`</li>
-    <li>Watch the build for changes : `grunt watch`</li>
+    <li>Install nodejs dependencies : <code>npm install</code></li>
+    <li>Run the build system : <code>grunt</code></li>
+    <li>Watch the build for changes : <code>grunt watch</code></li>
 </ol>
