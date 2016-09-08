@@ -1,18 +1,86 @@
-<div class='row'>
+<div class='parallax-container' style='height:350px;'>
+    <div class='section'>
+        <div class='container center-align'>
+            <h1 class='header white-text' style='font-weight:bold;font-size:6rem;text-shadow:4px 4px 12px #222;'>Your Site Main Title</h1>
+            <a href='/signup' class='btn waves-effect btn-large light-blue accent-4'>Sign Up Now</a>
+        </div>
+    </div>
+    <div class='parallax'>
+        <img src='/img/art-view.jpg'/>
+    </div>
+</div>
 
-    <h1>Strap up those rollerblades and prepare to boogie, the <i>Disco</i> is in full effect!</h1>
-    
-    <hr>
+<div class='section'>
 
-    <p>This is your index, and the content is coming from <i>`app/template/index.html`</i></p>
-    
-    <p>Your seeing this because the route <i>`/`</i> has been resolved to the root controller <i>`App\controller\Root`</i> and the function
-    <i>`getIndex()`</i> was called and returned this template.</p>
-    
-    <p>The view is by default using the template <i>`app/template_default.html`</i> to format pages and their <i>Header, Body, and Footer</i>
-    the default template is extending the <i>`app/template/_layout.html`</i> which provides the generic HTML structure and resource handling.</p>
+    <div class='container'>
 
-    <p>You will notice that the footer stays at the bottom, this is done by the `App.flex()` method in `public/js/js.js` feel free to do with it what as you will.</p>
+        <h1 class='header'>This Page (The index)</h1>
+        <p>This is your index, and the content is coming from <span class='chip'>app/template/index.html</span></p>
+        
+        <p>Your seeing this because the route <span class='chip'>/</span> has been resolved by a router in 
+        <span class='chip'>app/index.php</span> to the root controller <span class='chip'>App\controller\Root</span> and the method 
+        <span class='chip'>getIndex()</span> was called and loaded this template into the View.
+        </p>
+
+        <div class='divider'></div>
+            
+        <h1>The View</h1>
+        <p>
+        The View <span class='chip'>App\view\Standard</span> is being used and by default is using the template 
+        <span class='chip'>app/template/_default.html</span> as its <span class='chip'>baseTemplate</span> 
+        to format View content. The default template is extending the <span class='chip'>app/template/_layout.html</span> 
+        which provides the generic HTML structure and resource handling.
+        </p>
+
+        <p>
+        The methods <span class='chip'>header()</span> & <span class='chip'>footer()</span> are defined on <span class='chip'>App\view\Standard</span>
+        which are loading the templates <span class='chip'>app/template/header.html</span> & <span class='chip'>app/template/footer.html</span> into the View and are 
+        output in the default template.
+        </p>
+
+        <p>The View in its <span class='chip'>__construct()</span> method is also loading some resources which are helping style this page, primarly 
+            <a href='http://materializecss.com' target='_blank'>Materialize CSS</a>.
+        </p>
+
+        <div class='divider'></div>
+            
+        <h1>What Next</h1>
+
+        <p>Check out the default user functionality that is built into Disco by checking out the files in 
+        <span class='chip'>app/router/user.router.php</span>, 
+        <span class='chip'>app/controller/User.php</span>, 
+        <span class='chip'>app/controller/UserPublic.php</span>, 
+        <span class='chip'>app/service/User.php</span>, 
+        <span class='chip'>app/template/user/</span>,  
+        <span class='chip'>app/data_model/User.php</span>.
+        </p>
+
+        <p><b>Notice : </b> To use the default user functionality that comes with disco you will need to create the MySQL table dependencies.
+        To do so first make sure your database configuration settings are properly defined in <span class='chip'>app/config/config.php</span>, then
+        execute the command <span class='chip'>php public/index.php db-restore 'app/db' 'user_structure.sql'</span> to create the SQL tables.
+        To finalize the configuration for using the built in user functionality
+        configure your email settings in <span class='chip'>app/config/email.php</span> to enable verifying accounts and password resets.
+        </p>
+
+    </div>
 
 </div>
 
+<div class='parallax-container'>
+    <div class='parallax'>
+        <img src='/img/studio-desktop.jpg'/>
+    </div>
+</div>
+
+<div class='section'>
+    <div class='container center-align'>
+        <h2 class='header'>Read The Disco PHP Docs</h2>
+        <a target='_blank' href='https://discophp.com'>The Docs</a>
+    </div>
+</div>
+
+{% script %}
+$(document).ready(function(){
+    $('.parallax').parallax();
+});
+{% endscript %}

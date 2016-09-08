@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f2ad3db1c62b9f785da366a7ffc13b30",
-    "content-hash": "5e54c96baa9033afafcb9e6037ef7a0d",
+    "hash": "e0b372ab57ba7c005526c46918df7915",
+    "content-hash": "e0a07416facd45869a6ae8e1875d0882",
     "packages": [
         {
             "name": "defuse/php-encryption",
@@ -68,16 +68,16 @@
         },
         {
             "name": "discophp/framework",
-            "version": "4.11.0",
+            "version": "4.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/discophp/framework.git",
-                "reference": "71c7a73c8765f67f6ba4aeaf5ee96d28acfea476"
+                "reference": "46d71dab1674b671f88ed12a9b3a800edd516c71"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/discophp/framework/zipball/71c7a73c8765f67f6ba4aeaf5ee96d28acfea476",
-                "reference": "71c7a73c8765f67f6ba4aeaf5ee96d28acfea476",
+                "url": "https://api.github.com/repos/discophp/framework/zipball/46d71dab1674b671f88ed12a9b3a800edd516c71",
+                "reference": "46d71dab1674b671f88ed12a9b3a800edd516c71",
                 "shasum": ""
             },
             "require": {
@@ -110,12 +110,12 @@
             ],
             "authors": [
                 {
-                    "name": "Bradley Hamilton",
-                    "email": "brad@bradleyhamilton.com"
+                    "name": "WebYoke",
+                    "email": "support@webyoke.com"
                 }
             ],
             "description": "php framework",
-            "time": "2016-08-30 21:04:16"
+            "time": "2016-09-08 00:31:31"
         },
         {
             "name": "ifsnop/mysqldump-php",
@@ -465,16 +465,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v1.24.1",
+            "version": "v1.24.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "3566d311a92aae4deec6e48682dc5a4528c4a512"
+                "reference": "33093f6e310e6976baeac7b14f3a6ec02f2d79b7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/3566d311a92aae4deec6e48682dc5a4528c4a512",
-                "reference": "3566d311a92aae4deec6e48682dc5a4528c4a512",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/33093f6e310e6976baeac7b14f3a6ec02f2d79b7",
+                "reference": "33093f6e310e6976baeac7b14f3a6ec02f2d79b7",
                 "shasum": ""
             },
             "require": {
@@ -522,7 +522,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2016-05-30 09:11:59"
+            "time": "2016-09-01 17:50:53"
         }
     ],
     "packages-dev": [],

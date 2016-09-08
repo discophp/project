@@ -20,7 +20,9 @@ return Array(
     'Request'       => 'Disco\classes\Request',
     'Session'       => 'Disco\classes\Session',
     'Template'      => 'Disco\classes\Template',
-    'View'          => 'Disco\classes\View'
+    'View'          => 'Disco\classes\View',
+
+    'User'          => 'App\service\User',
 
 );
 

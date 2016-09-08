@@ -1,40 +1,9 @@
-var App = {};
 
-$(function(){
+//*****************************************
+// Disco PHP Framework default js functions
+//*****************************************
 
-    $(document).foundation();
-
-    App.$bodyContentWrapper = $('body > .body-content-wrapper');
-    App.$footer             = $('body > .footer');
-
-    $(window).bind('resize',App.flex);
-    App.flex();
-
-});
-
-
-//Keep the footer at the bottom of the screen.
-App.flex = function(){
-
-    var height = $(window).height() - App.$footer.outerHeight();
-    height = height - parseInt(App.$bodyContentWrapper.css('margin-top'));
-    App.$bodyContentWrapper.css('min-height',height);
-
-}//flex
-
-
-
-
-
-//**************************************************
-//**************************************************
-//      Disco PHP Framework default js functions
-//**************************************************
-//**************************************************
-
-
-// Print a string with a format like PHP
-// use like:
+// Print a string with a format like PHP:
 //
 //      var string = '{0} string {1}';
 //      string = string.format('this','is cool');
@@ -50,7 +19,7 @@ if (!String.prototype.format) {
 }
 
 
-//Replace all occurances of substring in string
+// Replace all occurances of substring in string
 String.prototype.replaceAll = function(find,replace){
     var str = this;
     return str.split(find).join(replace);
@@ -65,13 +34,7 @@ String.prototype.replaceAll = function(find,replace){
 };
 
 
-//set the title of the page
-App.setTitle = function(title){
-    $('title').text(title);
-}//setTitle
-
-
-//get a cookie by name
+// Get a cookie by name
 App.getCookie = function(name){
     var regexp = new RegExp("(?:^" + name + "|;\\s*"+ name + ")=(.*?)(?:;|$)", "g");
     var result = regexp.exec(document.cookie);
@@ -79,7 +42,7 @@ App.getCookie = function(name){
 }//getCookie
 
 
-//delete a cookie
+// Delete a cookie
 App.deleteCookie = function(name,path,domain) {
     if(getCookie(name)){
         createCookie(name,"",-1,path,domain);
@@ -87,7 +50,7 @@ App.deleteCookie = function(name,path,domain) {
 }//deleteCookie
 
 
-//create a cookie
+// Create a cookie
 App.createCookie = function(name, value, expires, path, domain) {
     var cookie = name + "=" + escape(value) + ";";
     if (expires) {

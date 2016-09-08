@@ -1,0 +1,35 @@
+{% macro error(error) %}
+<div class='input-error z-depth-1 orange lighten-3'>{{ error }}</div>
+{% endmacro %}
+
+{% macro flashError(flashKey) %}
+{% import _self as macros %}
+{% if call('strpos',flashKey,'.') %}
+    {% set pieces = call('explode','.',flashKey) %}
+    {% if App.with('Session').hasFlash(pieces[0]) %}
+        {% set flash = App.with('Session').getFlash(pieces[0]) %}
+        {% if flash[pieces[1]] %}
+        {{ macros.error(flash[pieces[1]]) }}
+        {% endif %}
+    {% endif %}
+{% elseif App.with('Session').hasFlash(flashKey) %}
+    {{ macros.error(App.with('Session').hasFlash(flashKey)) }}
+{% endif %}
+{% endmacro %}
+
+{% macro flashInputs(flashKey) %}
+{% if App.with('Session').hasFlash(flashKey) %}
+    {# json encode the data so we dont have to worry about escaping slashes #}
+    {% set flash = call('json_encode',App.with('Session').getFlash(flashKey)) %}
+    {% script %}
+        (function(){
+            var data = {{ flash }};
+            for(var key in data){
+                $('[name="' + key + '"]').val(data[key]);
+            }//for
+        })();
+    {% endscript %}
+{% endif %}
+{% endmacro %}
+
+

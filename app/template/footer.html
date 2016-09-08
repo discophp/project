@@ -1,5 +1,22 @@
-<div class='row'>
-    <p>This is your footer, and the content is coming from <i>`app/template/footer.html`</i></p>
-    <p>Your seeing it because the standard view class <i>`App\view\Standard`</i> in <i>`app/view/Standard.php`</i> is returning 
-    the template from the <i>`footer()`</i> function</p>
-</div>
+<footer class="page-footer light-blue lighten-1">
+    <div class="container">
+        <div class="row">
+            <div class="col l6 s12">
+                <h5 class="white-text">Footer Content</h5>
+                <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
+            </div>
+            <div class="col l4 offset-l2 s12">
+                <h5 class="white-text">Links</h5>
+                <ul>
+                    <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="footer-copyright light-blue">
+        <div class="container">© {{ 'now'|date('Y') }} Your Company Name <a class="grey-text text-lighten-4 right" href="#!">More Links</a></div>
+    </div>
+</footer>

@@ -1,3 +1,26 @@
+<IfModule mod_expires.c>                                                                                                                                                                                                                        
+
+    ExpiresActive on
+
+    # Media: images, video, audio
+    ExpiresByType image/gif                 "access plus 1 month"                                                          
+    ExpiresByType image/png                 "access plus 1 month"                                                          
+    ExpiresByType image/jpeg                "access plus 1 month"                                                          
+    ExpiresByType video/mp4                 "access plus 1 month"                                                          
+    ExpiresByType video/mpeg                "access plus 1 month"                                                          
+    ExpiresByType video/webm                "access plus 1 month"                                                          
+    ExpiresByType audio/mpeg                "access plus 1 month"                                                          
+    ExpiresByType audio/mp4                 "access plus 1 month"                                                          
+    ExpiresByType audio/ogg                 "access plus 1 month"                                                          
+    ExpiresByType audio/webm                "access plus 1 month"                                                          
+
+    # CSS and JavaScript
+    ExpiresByType text/css                  "access plus 1 month"
+    ExpiresByType application/javascript    "access plus 1 month"
+
+
+</IfModule>
+
 <IFModule mod_rewrite.c>
 
     RewriteEngine On
@@ -5,4 +28,5 @@
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
+
 </IfModule>

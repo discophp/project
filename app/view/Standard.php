@@ -9,13 +9,13 @@ Class Standard extends \Disco\classes\View {
 
     public function __construct(){
 
-        $this->scriptSrc('http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js');
-        $this->scriptSrc('/js/modernizr.js');
-        $this->scriptSrc('/js/foundation.min.js');
-        $this->scriptSrc('/js/js.js');
+        $this->styleSrc('http://fonts.googleapis.com/icon?family=Material+Icons');
+        $this->styleSrc('https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css');
+        $this->styleSrc('/resource/bundle.css',true);
 
-        $this->styleSrc('/css/foundation.min.css');
-        $this->styleSrc('/css/css.css');
+        $this->scriptSrc('https://code.jquery.com/jquery-2.1.1.min.js');
+        $this->scriptSrc('https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js');
+        $this->scriptSrc('/resource/bundle.js',true);
 
     }//construct
 

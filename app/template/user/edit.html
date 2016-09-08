@@ -1,0 +1,93 @@
+{% import "_macros.html" as macros %}
+
+<div class='container'>
+
+    <div class='row'>
+        <div class='col s12 m8'>
+            <h3 class='header'>Edit Your Account Information</h3>
+        </div>
+        <div class='col s12 m4 right-align'>
+            <p><a class='btn waves-effect btn-large modal-trigger' href='#pw-modal'>Change Password</a></p>
+        </div>
+    </div>
+
+
+    <form method='post'>
+
+        {{ App.with('Data').getCSRFTokenInput() }}
+
+        {% set data = App.with('User').getData() %}
+
+        <div class='input-field'>
+            <input placeholder='Username' id='username' name='username' type='text' class='validate' value="{{ data['username'] }}" required>
+            <br>
+            <label for='username'>Username</label>
+            {{ macros.flashError('edit-errors.username') }}
+        </div>
+
+        <div class='input-field'>
+            <input placeholder='Email' id='email' name='email' type='email' class='validate' value="{{ data['email'] }}" required>
+            <br>
+            <label for='email'>Email</label>
+            {{ macros.flashError('edit-errors.email') }}
+        </div>
+
+        <button class='btn waves-effect btn-large' type='submit' value='Update'>Update</button>
+
+    </form>
+</div>
+
+{{ macros.flashInputs('edit-data') }}
+
+<div id='pw-modal' class='modal'>
+
+    <div class='modal-content'>
+
+        <form method='post' action='/user/edit/password'>
+
+            {{ App.with('Data').getCSRFTokenInput() }}
+
+            <div class='input-field'>
+                <input placeholder='Current Password' id='password_current' name='password_current' type='password' class='validate' required>
+                <br>
+                <label for='password'>Current Password</label>
+                {{ macros.flashError('edit-password-errors.password_current') }}
+            </div>
+
+            <div class='input-field'>
+                <input placeholder='New Password' id='password' name='password' type='password' class='validate' required>
+                <br>
+                <label for='password'>New Password</label>
+                {{ macros.flashError('edit-password-errors.password') }}
+            </div>
+
+            <div class='input-field'>
+                <input placeholder='Confirm Password' id='password_verify' name='password_verify' type='password' class='validate' required>
+                <br>
+                <label for='password_verify'>Confirm Password</label>
+                {{ macros.flashError('edit-password-errors.password_verify') }}
+            </div>
+
+            <button class='btn waves-effect btn-large' type='submit' value='Update'>Update</button>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% script %}
+    $(document).ready(function(){
+
+        $('.modal-trigger').leanModal();
+
+        {% if App.with('Session').hasFlash('edit-password-errors') %}
+            $('#pw-modal').openModal();
+        {% endif %}
+
+        {% if App.with('Session').hasFlash('edit-success') %}
+            Materialize.toast("{{ App.with('Session').getFlash('edit-success') }}",6000);
+        {% endif %}
+
+    });
+{% endscript %}

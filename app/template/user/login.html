@@ -1,0 +1,45 @@
+{% import "_macros.html" as macros %}
+
+<div class='container'>
+
+    <h1 class='header'>Login</h1>
+
+    <form method='post'>
+
+        {{ App.with('Data').getCSRFTokenInput() }}
+
+        <div class='input-field'>
+            <input placeholder='Email or Username' id='username' name='name_or_email' type='text' class='validate' required>
+            <br>
+            <label for='username'>Email or Username</label>
+        </div>
+
+        <div class='input-field'>
+            <input placeholder='Password' id='password' name='password' type='password' class='validate' required>
+            <br>
+            <label for='password'>Password</label>
+        </div>
+
+        <p>
+            <input type="checkbox" class="filled-in" id="remember-me" name='remember_me'/>
+            <label for="remember-me">Remember Me</label>
+        </p>
+
+        <br>
+
+        {% if App.with('Session').hasFlash('login-error') %}
+            {{ macros.error(App.with('Session').getFlash('login-error')) }}
+            {{ macros.flashInputs('login-data') }}
+        {% endif %}
+
+        <div class='row'>
+            <div class='col s6'>
+                <button class='btn waves-effect btn-large' type='submit' value='Login'>Login</button>
+            </div>
+            <div class='col s6'>
+                <p class='right-align'><a href='/forgot-password'>Forgot Your Password?</a></p>
+            </div>
+        </div>
+
+    </form>
+</div>

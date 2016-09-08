@@ -1,25 +1,20 @@
 {
-    "name": "discophp/project",
-    "description": "php framework",
-    "license": "Apache License V2",
+    "name": "name/project",
+    "description": "",
+    "license": "",
     "authors": [
         {
-            "name": "Bradley Hamilton | WebYoke",
-            "email": "brad@webyoke.com"
+            "name": "You",
+            "email": "your@email.com"
         }
     ],
     "minimum-stability": "stable",
     "require": {
-        "discophp/framework":"4.11.0"
+        "discophp/framework":"4.2.0"
     },
     "autoload": {
         "classmap":[
-            "app/view/",
-            "app/controller/",
-            "app/model/",
-            "app/facade/",
-            "app/record/",
-            "app/service/"
+            "app/"
         ]
     },
     "scripts": {

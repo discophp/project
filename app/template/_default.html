@@ -2,11 +2,8 @@
 
 {% block content %}
 
-    <div class='body-content-wrapper'>
-        <div class='header'>{{ View.getHeader }}</div>
-        <div class='body'>{{ View.body }}</div>
-    </div>
-
-    <div class='footer'>{{ View.getFooter }}</div>
+    {{ View.getHeader }}
+    <main>{{ View.body }}</main>
+    {{ View.getFooter }}
 
 {% endblock %}

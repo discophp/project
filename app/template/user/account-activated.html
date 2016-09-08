@@ -1,0 +1,20 @@
+<div class='container'>
+    <h1 class='header'>Your Account Has Been Activated!</h1>
+    <p>You will redirected to the login screen in <span id='time'></span>
+</div>
+
+{% script %}
+(function(){
+    var seed = 5,
+        time = document.getElementById('time'),
+        interval = setInterval(function(){
+        if(seed == 0){
+            window.location.href = '/login';
+            clearInterval(interval);
+            return;
+        }//if
+        seed--;
+        time.innerText = seed;
+    },1000);
+})();
+{% endscript %}

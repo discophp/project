@@ -1,0 +1,19 @@
+{
+  "name": "your-site",
+  "description": "",
+  "main": "",
+  "authors": [
+    "you <your@email.com>"
+  ],
+  "license": "",
+  "moduleType": [
+    "amd"
+  ],
+  "private": true,
+  "ignore": [
+  ],
+  "dependencies": {
+    "react": "~15.3.1",
+    "underscore": "1.8.3"
+  }
+}

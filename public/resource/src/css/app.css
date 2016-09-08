@@ -1,0 +1,33 @@
+/* 
+ * These two styles allow the footer to stay at the bottom of the page, 
+ * see http://materializecss.com/footer.html for more information
+*/
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column; }
+
+main {
+  flex: 1 0 auto; }
+
+/*
+ * Custom CSS Below
+*/
+nav .normal-nav i.material-icons {
+  line-height: 63px; }
+
+nav .side-nav i.material-icons {
+  line-height: 47px !important;
+  height: 47px; }
+
+header .dropdown-content i.material-icons {
+  line-height: 24px;
+  height: 24px; }
+
+.input-error {
+  padding: 4px 12px;
+  border-radius: 2px;
+  margin-bottom: 40px;
+  font-size: .8rem; }
+
+/*# sourceMappingURL=app.css.map */
