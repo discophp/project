@@ -1,7 +1,8 @@
 <?php
-namespace App\model;
+namespace App\repository;
+use \Disco\database\Repository;
 
-class UserLoginToken extends \Disco\classes\Model {
+class UserLoginToken extends Repository {
 
     
     public $table = 'user_login_token';

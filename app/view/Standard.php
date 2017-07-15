@@ -1,10 +1,11 @@
 <?php
 namespace App\view;
+use \Disco\html\View;
 
-Class Standard extends \Disco\classes\View {
+Class Standard extends View {
 
     public function header(){
-        return \Template::build('header.html');
+        return template()->render('header.html');
     }//header
 
     public function __construct(){
@@ -20,7 +21,7 @@ Class Standard extends \Disco\classes\View {
     }//construct
 
     public function footer(){
-        return \Template::build('footer.html');
+        return template()->render('footer.html');
     }//footer
 
 }//Standard

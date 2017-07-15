@@ -1,9 +1,0 @@
-<?php
-namespace App\model;
-
-class {camelTable} extends \Disco\classes\Model {
-
-    {model}
-
-
-}//{camelTable}

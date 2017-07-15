@@ -1,43 +1,56 @@
 <?php
 namespace App\controller;
+use Disco\http\Controller;
 
-class User {
+class User extends Controller {
+
+
+    /**
+     * @var \App\service\User $user
+     */
+    private $user;
+
+
+    public function __construct(\App\service\User $user) {
+        $this->user = $user;
+    }
 
 
     public function getIndex(){
-        \Template::with('user/index');
+        view()->title('Dashboard');
+        return $this->view('user/index.html');
     }//getIndex
 
 
 
     public function getEdit(){
-        \View::title('Edit Your Account Information');
-        \Template::with('user/edit');
+        view()->title('Edit Your Account Information');
+        return $this->view('user/edit.html');
     }//getEdit
 
 
 
     public function postEdit(){
 
-        $data = \Data::post()->all();
+        $data = data()->post()->all();
 
-        $UserDataModel = new \App\data_model\User($data);
+        $userDataModel = new \App\data_model\User($data);
 
-        if(!$UserDataModel->verifySetData()){
+        if(!$userDataModel->verifySetData()){
 
-            \Session::setFlash('edit-data',$UserDataModel->getData());
-            \Session::setFlash('edit-errors',$UserDataModel->getErrors());
+            session()->setFlash('edit-data', $userDataModel->getData());
+            session()->setFlash('edit-errors', $userDataModel->getErrors());
 
         }//if
         else {
 
-            \App::with('User')->updateUser($UserDataModel);
+            $this->user->updateUser($userDataModel);
 
-            \Session::setFlash('edit-success','Account Information Updated!');
+            session()->setFlash('edit-success', 'Account Information Updated!');
 
         }//el
 
-        \View::redirect($_SERVER['REQUEST_URI']);
+        return $this->redirect(request()->getRequestUri());
 
     }//postEdit
 
@@ -45,32 +58,32 @@ class User {
 
     public function postEditPassword(){
 
-        $data = \Data::post(Array('password_current','password','password_verify'));
+        $data = data()->post(['password_current', 'password', 'password_verify']);
 
-        $UserDataModel = new \App\data_model\User($data);
+        $userDataModel = new \App\data_model\User($data);
 
-        $current_password = \App::with('User')->User
+        $current_password = $this->user->User
             ->select('password')
-            ->where('id=?',\App::with('User')->userId())
+            ->where('id=?', $this->user->userId())
             ->first()['password'];
 
         if(\Crypt::hash($data['password_current']) != $current_password){
-            \Session::setFlash('edit-password-errors',Array(
+            session()->setFlash('edit-password-errors', [
                 'password_current' => 'That wasn\'t your current password',
-            ));
+            ]);
         }//if
-        else if(!$UserDataModel->verifySetData()){
-            \Session::setFlash('edit-password-errors',$UserDataModel->getErrors());
+        else if(!$userDataModel->verifySetData()){
+            session()->setFlash('edit-password-errors', $userDataModel->getErrors());
         }//elif
         else {
 
-            \App::with('User')->changePassword($UserDataModel['password']);
+            $this->user->changePassword($userDataModel['password']);
 
-            \Session::setFlash('edit-success','Password Updated!');
+            session()->setFlash('edit-success', 'Password Updated!');
 
         }//el
 
-        \View::redirect('/user/edit');
+        return $this->redirect(app()->route('user.edit'));
 
     }//postEditPassword
 

@@ -1,35 +1,36 @@
 <?php
 namespace App\controller;
+use \Disco\http\Controller;
 
-class UserPublic {
+class UserPublic extends Controller {
 
+    /**
+     * @var \App\service\User $user
+     */
+    private $user;
 
-    public function __construct(){
-
-        if(\App::with('User')->loggedIn()){
-            \View::redirect('/user/');
-        }//if
-
+    public function __construct(\App\service\User $user){
+        $this->user = $user;
     }//__construct
 
 
     public function getLogin(){
-        \View::title('Login');
-        \Template::with('user/login');
+        view()->title('Login');
+        return $this->view('user/login.html');
     }//getLogin
 
 
 
     public function postLogin(){
 
-        $data = \Data::post(Array('name_or_email','password','remember_me'));
+        $data = data()->post(['name_or_email', 'password', 'remember_me']);
 
         $data['remember_me'] = isset($data['remember_me']) && $data['remember_me'] == 'on';
 
         if(
             !$data['name_or_email'] || 
             !$data['password'] || 
-            (($status = \App::with('User')->login($data['name_or_email'],$data['password'],$data['remember_me'])) !== 1)
+            (($status = $this->user->login($data['name_or_email'], $data['password'], $data['remember_me'])) !== 1)
         ){
 
             $error = 'Invalid Login Credentials!';
@@ -38,83 +39,83 @@ class UserPublic {
                 $error = 'Your account needs to be verified before you can log in, we sent you a verification email when you signed up.';
             }//if
 
-            \Session::setFlash('login-error',$error);
-            \Session::setFlash('login-data',Array('name_or_email' => $data['name_or_email']));
+            session()->setFlash('login-error',$error);
+            session()->setFlash('login-data',Array('name_or_email' => $data['name_or_email']));
 
-            \View::redirect('/login');
+            return $this->redirect(request()->uri());
 
         }//if
-            
-        \View::redirect('/user/');
+
+        return $this->redirect('/user/');
 
     }//postLogin
 
 
 
     public function getSignUp(){
-        \View::title('Sign Up');
-        \Template::with('user/signup');
+        view()->title('Sign Up');
+        return $this->view('user/signup.html');
     }//getSignUp
 
 
 
     public function postSignUp(){
 
-        $data = \Data::post()->all();
+        $data = data()->post()->all();
 
         $UserDataModel = new \App\data_model\User($data);
 
         if(!$UserDataModel->verify()){
 
-            \Session::setFlash('signup-data',$UserDataModel->getData());
-            \Session::setFlash('signup-errors',$UserDataModel->getErrors());
+            session()->setFlash('signup-data',$UserDataModel->getData());
+            session()->setFlash('signup-errors',$UserDataModel->getErrors());
 
         }//if
         else {
 
             $UserRecord = new \App\record\User($data);
 
-            $UserRecord['password'] = \Crypt::hash($UserRecord['password']);
+            $UserRecord->setPassword( \Crypt::hash( $UserRecord->getPassword() ) );
 
             $UserRecord['created_on_date'] = Array('raw' => 'NOW()');
 
             $UserRecord->insert();
 
-            \App::with('User')->sendActivationEmail($UserRecord['id']);
+            $this->user->sendActivationEmail( $UserRecord->getId() );
 
-            \Session::setFlash('signup-success',1);
+            session()->setFlash('signup-success',1);
 
         }//el
 
-        \View::redirect('/signup');
+        return $this->redirect(request()->uri());
 
     }//postSignUp
 
 
 
     public function getForgotPassword(){
-        \View::title('Request A Password Reset');
-        \Template::with('user/forgot-password');
+        view()->title('Request A Password Reset');
+        return $this->view('user/forgot-password.html');
     }//getForgotPassword
 
 
 
     public function postForgotPassword(){
-        \App::with('User')->sendPasswordResetEmail(\Data::post('email'));
-        \Session::setFlash('pw-reset',1);
-        \View::redirect('/forgot-password');
+        $this->user->sendPasswordResetEmail(data()->post('email'));
+        session()->setFlash('pw-reset', 1);
+        return $this->redirect(request()->uri());
     }//postForgotPassword
 
 
 
     public function getActivateAccount($token){
 
-        if(!\App::with('User')->activateAccount($token)){
+        if(!$this->user->activateAccount($token)){
             return false;
         }//if
 
-        \View::title('Your Account Has Been Activated');
-        \Template::with('user/account-activated');
+        view()->title('Your Account Has Been Activated');
+        return $this->view('user/account-activated.html');
 
     }//getActiveAccount
 
@@ -122,12 +123,12 @@ class UserPublic {
 
     public function getPasswordReset($token){
 
-        if(!\Session::hasFlash('pw-reset-success') && !\App::with('User')->isValidToken($token,'password')){
+        if(!session()->hasFlash('pw-reset-success') && !$this->user->isValidToken($token,'password')){
             return false;
         }//if
 
-        \View::title('Reset Your Password');
-        \Template::with('user/password-reset');
+        view()->title('Reset Your Password');
+        return $this->view('user/password-reset.html');
         
     }//getPasswordReset
 
@@ -135,24 +136,24 @@ class UserPublic {
 
     public function postPasswordReset($token){
 
-        $user_id = \App::with('User')->isValidToken($token,'password');
+        $user_id = $this->user->isValidToken($token,'password');
 
         if(!$user_id){
             return false;
         }//if
 
-        $UserDataModel = new \App\data_model\User(\Data::post()->all());
+        $UserDataModel = new \App\data_model\User(data()->post()->all());
 
         if(!$UserDataModel->verifySetData()){
-            \Session::setFlash('pw-reset-errors',$UserDataModel->getErrors());
+            session()->setFlash('pw-reset-errors', $UserDataModel->getErrors());
         }//if
         else {
-            \App::with('User')->changePassword($UserDataModel['password'],$user_id);
-            \App::with('User')->deleteToken($user_id,'password');
-            \Session::setFlash('pw-reset-success',1);
+            $this->user->changePassword($UserDataModel['password'],$user_id);
+            $this->user->deleteToken($user_id,'password');
+            session()->setFlash('pw-reset-success',1);
         }//el
 
-        \View::redirect($_SERVER['REQUEST_URI']);
+        return $this->redirect(request()->uri());
 
     }//postPasswordReset
 

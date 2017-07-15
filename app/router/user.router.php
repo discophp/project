@@ -1,62 +1,78 @@
 <?php
 
-Router::multi('/login',Array(
-    'get'   => 'App\controller\UserPublic@getLogin',
-    'post'  => 'App\controller\UserPublic@postLogin',
-));
+router()
+    ->middleware(function($request, $next) {
+        \Log::instance()->info('Hey the middleware on the router works!');
+        return $next($request);
+    })
+    ->controller('UserPublic')
+    ->multi('/login',[
+        'get'   => 'getLogin',
+        'post'  => 'postLogin',
+    ]);
 
-Router::get('/logout',function(){
+router()->get('/logout',function(){
 
-    if(\App::with('User')->loggedIn()){
-        \App::with('User')->logout();
+    if(app()->with('User')->loggedIn()){
+        app()->with('User')->logout();
     }//if
 
-    \View::redirect('/login');
+    redirect('/login');
 
 });
 
+router()
+    ->middleware('user:notLoggedIn')
+    ->controller('UserPublic')
+    ->group(function() {
 
-Router::multi('/signup',Array(
-    'get'   => 'App\controller\UserPublic@getSignUp',
-    'post'  => 'App\controller\UserPublic@postSignUp',
-));
+        router()->multi('/signup', [
+            'get'   => 'getSignUp',
+            'post'  => 'postSignUp',
+        ]);
 
-Router::multi('/forgot-password',Array(
-    'get'   => 'App\controller\UserPublic@getForgotPassword',
-    'post'  => 'App\controller\UserPublic@postForgotPassword',
-));
+        router()
+            ->multi('/forgot-password', [
+                'get'   => 'getForgotPassword',
+                'post'  => 'postForgotPassword',
+            ])
+            ->name('user.forgot-password');
 
-Router::get(\App\service\User::ACTIVATION_SLUG . '{token}','App\controller\UserPublic@getActivateAccount')
-    ->where('token','all');
+        router()
+            ->get(\App\service\User::ACTIVATION_SLUG . '{token}','getActivateAccount')
+            ->name('user.activation');
 
-Router::multi(\App\service\User::PW_RESET_SLUG . '{token}',Array(
-    'get'   => 'App\controller\UserPublic@getPasswordReset',
-    'post'  => 'App\controller\UserPublic@postPasswordReset',
-))->where('token','all');
+        router()
+            ->multi(\App\service\User::PW_RESET_SLUG . '{token}', [
+                'get'   => 'getPasswordReset',
+                'post'  => 'postPasswordReset',
+            ])
+            ->name('user.password-reset');
 
-Router::auth(\App\service\User::SESSION_KEY,'/login')->filter('/user/{*}',function(){
 
-    Router::filter('/user/{*}')->children(Array(
+    });
 
-        '' => Array(
-            'type' => 'get',
-            'action' => 'App\controller\User@getIndex',
-        ),
+router()
+    ->middleware('user:loggedIn')
+    ->filter('/user/{*}', function(){
+        router()
+            ->controller('User')
+            ->group(function(){
 
-        'edit' => Array(
-            'type' => 'multi',
-            'action' => Array(
-                'get'   => 'App\controller\User@getEdit',
-                'post'  => 'App\controller\User@postEdit',
-            ),
-            'children' => Array(
-                '/password' => Array(
-                    'type'      => 'post',
-                    'action'    => 'App\controller\User@postEditPassword',
-                ),
-            ),
-        ),
+                router()
+                    ->get('', 'getIndex')
+                    ->name('user.index');
 
-    ));
+                router()
+                    ->multi('edit', [
+                        'get' => 'getEdit',
+                        'post' => 'postEdit',
+                    ])
+                    ->name('user.edit');
 
-});
+                router()
+                    ->post('edit/password', 'postEditPassword')
+                    ->name('user.edit.password');
+
+            });
+    });

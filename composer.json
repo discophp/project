@@ -9,8 +9,14 @@
         }
     ],
     "minimum-stability": "stable",
+    "repositories" : [
+        {
+            "type" : "path",
+            "url" : "/var/disco/framework"
+        }
+    ],
     "require": {
-        "discophp/framework":"4.2.0"
+        "discophp/framework":"dev-dev-5.0"
     },
     "autoload": {
         "classmap":[

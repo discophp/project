@@ -8,22 +8,22 @@ return Array(
         return phpFastCache();
     },
     'Crypt'         => 'Disco\classes\Crypt',
-    'Data'          => 'Disco\classes\Data',
-    'DB'            => 'Disco\classes\PDO',
+    'Data'          => 'Disco\http\Data',
+    'DB'            => 'Disco\database\DB',
     'Event'         => 'Disco\classes\Event',
     'Email'         => 'Disco\classes\Email',
     'FileHelper'    => 'Disco\classes\FileHelper',
-    'Form'          => 'Disco\classes\Form',
-    'Html'          => 'Disco\classes\Html',
-    'Model'         => 'Disco\classes\ModelFactory',
+    'Form'          => 'Disco\html\Form',
+    'Html'          => 'Disco\html\Html',
+    'Log'           => 'Disco\Log',
     'Queue'         => 'Disco\classes\Queue',
-    'Request'       => 'Disco\classes\Request',
-    'Session'       => 'Disco\classes\Session',
-    'Template'      => 'Disco\classes\Template',
-    'View'          => 'Disco\classes\View',
+    'Request'       => 'Disco\http\Request',
+    'Response'      => 'Disco\http\Response',
+    'Session'       => 'Disco\http\Session',
+    'Template'      => 'Disco\html\Template',
+    'View'          => 'Disco\html\View',
 
     'User'          => 'App\service\User',
+    'ExceptionHandler' => 'App\exceptions\Handler',
 
 );
-
-?>

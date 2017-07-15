@@ -1,0 +1,10 @@
+<?php
+namespace App\repository;
+use \Disco\database\Repository;
+
+class {camelTable} extends Repository {
+
+    {repository}
+
+
+}//{camelTable}

@@ -1,9 +1,13 @@
 <?php
 namespace App\record;
+use \Disco\database\Record;
 
-class {camelTable} extends \Disco\classes\Record {
+class {camelTable} extends Record {
 
-    protected $model = '\App\model\{camelTable}';
+    /**
+    * @var string $model
+    */
+    protected $model = '\App\repository\{camelTable}';
     
     {record}
 

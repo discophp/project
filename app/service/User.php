@@ -50,7 +50,7 @@ class User {
 
 
     /**
-     * @var \App\model\User $User {@link \App\model\User} instance.
+     * @var \App\repository\User $User {@link \App\repository\User} instance.
     */
     public $User;
 
@@ -70,13 +70,13 @@ class User {
     */
     public function __construct($user_id = null){
 
-        $this->User = new \App\model\User;
+        $this->User = new \App\repository\User;
 
         if($user_id !== null && is_numeric($user_id)){
             $this->user_id = $user_id;
-        } else if(\Session::has($this->getSessionKey())){
+        } else if(session()->has($this->getSessionKey())){
             $this->logged_in = true;
-            $this->user_id = \Session::get($this->getSessionKey());
+            $this->user_id = session()->get($this->getSessionKey());
         }//if
 
     }//construct
@@ -154,11 +154,11 @@ class User {
     public function login($name_or_email,$password, $permanent = false){
 
         $row = $this->User->select('id,verified_date')
-            ->where('(username=? OR email=?) AND password=?',Array(
+            ->where('(username=? OR email=?) AND password=?', [
                 $name_or_email,
                 $name_or_email,
                 \Crypt::hash($password),
-            ))
+            ])
             ->data(); 
 
         if(!$row->rowCount()){
@@ -171,8 +171,8 @@ class User {
             return -1;
         }//if
 
-        \Session::set($this->getSessionKey(),$row['id']);
-        \Session::regen();
+        session()->set($this->getSessionKey(),$row['id']);
+        session()->regen();
 
         $this->user_id = $row['id'];
         $this->logged_in = true;
@@ -192,11 +192,11 @@ class User {
     */
     public function logout(){
 
-        \Session::destroy();
+        session()->destroy();
 
-        if(\Data::hasCookie(self::PERM_LOGIN_COOKIE_NAME)){
+        if(data()->hasCookie(self::PERM_LOGIN_COOKIE_NAME)){
 
-            $cookie = \Data::getCookie(self::PERM_LOGIN_COOKIE_NAME);
+            $cookie = data()->getCookie(self::PERM_LOGIN_COOKIE_NAME);
             
             $p = explode('|',$cookie);
     
@@ -211,7 +211,7 @@ class User {
                 $record->delete();
             }//if
 
-            \Data::deleteCookie(self::PERM_LOGIN_COOKIE_NAME);
+            data()->deleteCookie(self::PERM_LOGIN_COOKIE_NAME);
 
         }//if
 
@@ -231,7 +231,7 @@ class User {
 
         $result = $this->User
             ->select('email')
-            ->where(Array('email'=>$email))
+            ->where(['email' => $email])
             ->data();
 
         if($result->rowCount() != 0){
@@ -269,7 +269,7 @@ class User {
     public function updateLastAccess(){
 
         $this->User
-            ->update(Array('last_access_date' => Array('raw' => 'NOW()')))
+            ->update(['last_access_date' => ['__raw' => 'NOW()']])
             ->where('id=?',$this->userId())
             ->finalize();
 
@@ -287,24 +287,24 @@ class User {
     */
     public function sendActivationEmail($user_id){
 
-        $record = new \App\record\User(Array('id' => $user_id));
+        $record = new \App\record\User(['id' => $user_id]);
 
         if(!$record->exists()){
-            return Array('sent' => false);
+            return ['sent' => false];
         }//if
 
         $token = $this->generateToken($record->id,'activate',null);
 
-        $data = Array();
+        $data = [];
 
-        $data['url'] = \App::domain() . self::ACTIVATION_SLUG . $token;
+        $data['url'] = app()->domain() . app()->route('user.activation', ['token' => $token]);
 
-        $data['link'] = \Html::a(Array('href' => $data['url']),'Activate Account');
+        $data['link'] = \Html::a(['href' => $data['url']], 'Activate Account');
 
         $data['to'] = $record->fetch('email');
 
         try {
-            return \Email::send($data['to'],'Activate Your Account',\Template::render('user/email/account-activation.html',$data));
+            return \Email::send($data['to'], 'Activate Your Account', template()->render('user/email/account-activation.html', $data));
         } catch(\Exception $e){
             \App::log("Error sending account activation email to user : `{$record['id']}`");
             return false;
@@ -333,7 +333,7 @@ class User {
 
         return $this->User
             ->update('verified_date=NOW()')
-            ->where('id=?',$user_id)
+            ->where('id=?', $user_id)
             ->finalize();
 
     }//activateAccount
@@ -347,6 +347,7 @@ class User {
      * @param string $email The email of the user.
      *
      * @return boolean
+     * @throws \Disco\exceptions\Exception
     */
     public function sendPasswordResetEmail($email){
 
@@ -358,17 +359,16 @@ class User {
 
         $token = $this->generateToken($user['id'],'password');
 
-        $data = Array();
-        $data['url'] = \App::domain() . self::PW_RESET_SLUG . $token;
-        $data['link'] = \Html::a(Array('href' => $data['url']),'Reset Password');
+        $data = [];
+        $data['url'] = app()->domain() . app()->route('user.password-reset', ['token' => $token]);
+        $data['link'] = \Html::a(['href' => $data['url']], 'Reset Password');
 
         $data['to'] = $email;
 
         try {
-            return \Email::send($data['to'],'Password Reset Request',\Template::render('user/email/password-reset.html',$data));
+            return \Email::send($data['to'], 'Password Reset Request', template()->render('user/email/password-reset.html', $data));
         } catch(\Exception $e){
-            \App::log("Error sending account activation email to user : `{$record['id']}`");
-            return false;
+            throw new \Disco\exceptions\Exception("Error sending account activation email to user : `{$user['id']}` : {$e->getMessage()}");
         }//catch
 
     }//sendPasswordResetEmail
@@ -386,11 +386,11 @@ class User {
      *
      * @return boolean|int False if expired or non-existent, users id if valid token.
     */
-    public function isValidToken($token,$token_type){
+    public function isValidToken($token, $token_type){
 
         $Token = \App\record\UserToken::find(
-                    Array('token' => $token , 'type' => $token_type), 
-                    Array('id','user_id','UNIX_TIMESTAMP(expires_on_date) AS expires_on_date')
+                    ['token' => $token , 'type' => $token_type],
+                    ['id', 'user_id', 'UNIX_TIMESTAMP(expires_on_date) AS expires_on_date']
                 );
 
         if($Token === false || ($Token->expires_on_date && $Token->expires_on_date < time())){
@@ -416,17 +416,17 @@ class User {
     */
     public function generateToken($user_id,$token_type,$expires_days = 5){
 
-        $User = new \App\record\User(Array('id' => $user_id));
+        $User = new \App\record\User(['id' => $user_id]);
 
         if(!$User->exists()){
             return false;
         }//if
 
         $user_has_token = \App\record\UserToken::find(
-                Array(
+                [
                     'user_id'   => $User->id,
                     'type'      => $token_type
-                ),
+                ],
                 'id'
             );
 
@@ -434,9 +434,9 @@ class User {
 
         $Token->user_id         = $User->id;
         $Token->token           = str_replace('/','|',base64_encode( openssl_random_pseudo_bytes(128)));
-        $Token->created_on_date = Array('raw' => 'NOW()');
+        $Token->created_on_date = ['__raw' => 'NOW()'];
         if(is_int($expires_days)){
-            $Token->expires_on_date = Array('raw'=>'(NOW() + INTERVAL ' . $expires_days . ' DAY)');
+            $Token->expires_on_date = ['__raw' => '(NOW() + INTERVAL ' . $expires_days . ' DAY)'];
         }//if
         $Token->type            = $token_type;
 
@@ -464,10 +464,10 @@ class User {
     */
     public function deleteToken($user_id,$token_type){
         $UserToken = \App\record\UserToken::find(
-            Array(
+            [
                 'user_id'   => $user_id,
                 'type'      => $token_type
-            ),
+            ],
             'id'
         );
 
@@ -492,15 +492,15 @@ class User {
     public function makeLoginPermanent($user_id){
 
         $token = base64_encode( openssl_random_pseudo_bytes(128));
-        $secret = \App::config('AES_KEY256');
+        $secret = app()->config('AES_KEY256');
 
         $record = new \App\record\UserLoginToken;
 
         $record['token']                = $token;
         $record['user_id']              = $user_id;
-        $record['created_on_date']      = Array('raw' => 'NOW()');
+        $record['created_on_date']      = ['__raw' => 'NOW()'];
         $record['ip_address']           = $_SERVER['REMOTE_ADDR'];
-        $record['last_accessed_date']   = Array('raw' => 'NOW()');
+        $record['last_accessed_date']   = ['__raw' => 'NOW()'];
         $record['user_agent']           = $_SERVER['HTTP_USER_AGENT'];
 
         $id = $record->insert();
@@ -510,7 +510,7 @@ class User {
 
         $cookie .= '|'.$mac;
 
-        return \Data::setCookie(self::PERM_LOGIN_COOKIE_NAME, $cookie, self::PERM_LOGIN_LENGTH);
+        return data()->setCookie(self::PERM_LOGIN_COOKIE_NAME, $cookie, self::PERM_LOGIN_LENGTH);
 
     }//makeLoginPermanent
 
@@ -524,7 +524,7 @@ class User {
     */
     public function checkForPermanentLoginToken(){
 
-        if(\Data::hasCookie(self::PERM_LOGIN_COOKIE_NAME)){
+        if(data()->hasCookie(self::PERM_LOGIN_COOKIE_NAME)){
 
             $cookie = \Data::getCookie(self::PERM_LOGIN_COOKIE_NAME);
 
@@ -535,23 +535,23 @@ class User {
             $mac        = array_pop($p);
             $token      = join('|',$p);
     
-            $secret = \App::config('AES_KEY256');
+            $secret = app()->config('AES_KEY256');
             if ($mac !== hash_hmac('sha256', $id . '|' . $user_id . '|' . $token, $secret)) {
                 return false;
             }//if
     
-            $LoginToken = \App\record\UserLoginToken::find(Array('id' => $id,'user_id' => $user_id), Array('id,user_id,token'));
+            $loginToken = \App\record\UserLoginToken::find(['id' => $id, 'user_id' => $user_id], ['id,user_id,token']);
 
-            if($LoginToken !== false && \Crypt::timingSafeCompare($LoginToken['token'], $token)) {
+            if($loginToken !== false && \Crypt::timingSafeCompare($loginToken['token'], $token)) {
     
-                \Session::set($this->getSessionKey(),$user_id);
-                \Session::regen();
+                session()->set($this->getSessionKey(),$user_id);
+                session()->regen();
     
                 $this->user_id = $user_id;
                 $this->logged_in = true;
 
-                $LoginToken['last_accessed_date'] = Array('raw' => 'NOW()');
-                $LoginToken->update();
+                $loginToken['last_accessed_date'] = ['__raw' => 'NOW()'];
+                $loginToken->update();
 
             }//if 
 
@@ -605,9 +605,9 @@ class User {
         }//if
 
         return $this->User
-            ->update(Array(
+            ->update([
                 'password' => \Crypt::hash($password),
-            ))
+            ])
             ->where('id=?',$user_id)
             ->finalize();
 
@@ -627,7 +627,7 @@ class User {
 
         return $this->User
             ->select('id')
-            ->where('email=? AND id<>?',Array($email,$user_id))
+            ->where('email=? AND id<>?', [$email, $user_id])
             ->limit(1)
             ->data()
             ->rowCount();

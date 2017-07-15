@@ -15,9 +15,11 @@ return array (
   'DB_CHARSET' => 'utf8',
   'DB_HOST' => '127.0.0.1',
   'DB_USER' => 'root',
-  'DB_PASSWORD' => '',
-  'DB_DB' => '',
+  'DB_PASSWORD' => 'rainbow22',
+  'DB_DB' => 'DISCO_TEST',
   'AES_KEY256' => '',
   'SHA512_SALT' => '',
+  'LOG' => '/log/app.log',
+  'ERROR_REPORTING' => E_ALL,
 )
 ;

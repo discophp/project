@@ -21,6 +21,7 @@
                 {% if App.with('User').loggedIn() %}
                     <li><a><i class='material-icons left'>account_circle</i>{{ data['username'] }}</a></li>
                     <li class='divider'></li>
+                    <li><a href='/user/'><i class='material-icons right'>home</i>Dashboard</a></li>
                     <li><a href='/user/edit'><i class='material-icons right'>settings</i>Edit</a></li>
                     <li><a href='/logout'><i class='material-icons right'>exit_to_app</i>Logout</a></li>
                 {% else %}
@@ -31,6 +32,7 @@
         </div>
     </nav>
     <ul id='user-dd' class='dropdown-content'>
+        <li><a href='/user/'><i class='material-icons right'>home</i>Dashboard</a></li>
         <li><a href='/user/edit'><i class='material-icons right'>settings</i>Edit</a></li>
         <li><a href='/logout'><i class='material-icons right'>exit_to_app</i>Logout</a></li>
     </ul>

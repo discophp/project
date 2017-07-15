@@ -1,7 +1,8 @@
 <?php
 namespace App\controller;
+use \Disco\http\Controller;
 
-Class Root {
+Class Root extends Controller {
 
 
 
@@ -9,8 +10,8 @@ Class Root {
      * Logic for `/` route.
     */
     public function getIndex(){
-        \View::title('Your Site Home Page');
-        \Template::with('index.html');
+        view()->title('Your Site Home Page');
+        return $this->view('index.html');
     }//index
 
 
